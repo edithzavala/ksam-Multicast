@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package org.ksam.multicast.adapter.model.messages;
+
+option java_package = "org.ksam.multicast.adapter.model.protos";
+option java_outer_classname = "MessagesProtos";
+
+message MessageContainer{  //Envelop
+	int32 ID = 7; //set to 0 in code
+    int32 dataType = 1;
+    bytes serializedData = 2;
+    TimePoint sent = 3;
+    TimePoint received = 4;
+    TimePoint sampleTimeStamp = 5;
+    uint32 senderStamp = 6;
+}
+
+message TimePoint {
+	int32 ID = 3; //set to 12 in code
+    int32 seconds = 1;
+    int32 microseconds = 2;
+}
+
+message ServerInformation { 
+    enum ManagedLevel {
+        ML_NONE = 0;
+        ML_PULSE = 1;
+        ML_PULSE_SHIFT = 2;
+        ML_PULSE_TIME = 3;
+        ML_PULSE_TIME_ACK = 4;
+        ML_SIMULATION_RT = 5;
+        ML_SIMULATION = 6;
+    };
+    int32 ID = 4; //set to 112 in code
+    string IP = 1;
+    uint32 port = 2;
+    ManagedLevel managedLevel = 3;
+}
+
+message DiscoverMessage{
+    enum Type {
+        UNDEFINED = 0;
+        DISCOVER = 1;
+        RESPONSE = 2;
+    };
+    int32 ID = 4; //set to 3 in code
+    Type type = 1;
+    ServerInformation serverInformation = 2;
+    string moduleName = 3;
+}
+
+message Packet {
+    int32 ID = 4; //set to 123 in code
+    string sender = 1;
+    string data = 2;
+    TimePoint received = 3;
+}
