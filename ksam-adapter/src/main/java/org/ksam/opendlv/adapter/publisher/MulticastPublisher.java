@@ -1,4 +1,4 @@
-package org.ksam.multicast.adapter.publisher;
+package org.ksam.opendlv.adapter.publisher;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
