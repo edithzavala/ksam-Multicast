@@ -1,16 +1,42 @@
+plugins {
+	id 'org.springframework.boot' version '2.0.0.RELEASE'
+}
+
 apply plugin: 'java'
+apply plugin: 'io.spring.dependency-management'
+
+compileJava {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
+    //compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
 
 	// https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java
-	compile group: 'com.google.protobuf', name: 'protobuf-java', version: '3.5.1'
+	//compile group: 'com.google.protobuf', name: 'protobuf-java', version: '3.5.1'
+	compile("org.springframework.boot:spring-boot-actuator")
+    
+    compile("org.springframework:spring-web")
+    
+    compile("org.springframework.boot:spring-boot-starter-web")
+	
+	compile("com.fasterxml.jackson.core:jackson-databind")
+	// https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
+
+	compile("com.fasterxml.jackson.core:jackson-core")
+
+	compile 'io.reactivex.rxjava2:rxjava:2.1.5'
 
     testImplementation 'junit:junit:4.12'
 
+}
+
+task wrapper(type: Wrapper) {
+      gradleVersion = '4.5'
 }
 

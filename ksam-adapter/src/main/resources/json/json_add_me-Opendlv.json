@@ -1,0 +1,51 @@
+{
+	"ksamConfig":{
+		"monitorConfig":{
+			"monMechanisms" :["push"],
+			"monOperations" :["normalize"],
+			"frequency" : null
+		},
+		"analyzerConfig":{
+			"problemId" :"SensorStateMonitoring"
+		},
+		"plannerConfig": {
+		},
+		"executerConfig":{
+			"adaptationType":"differential",
+			"adaptationsFormat" : "adhocMessage"
+		},
+		"kbConfig":{
+			
+		}
+	},
+	"systemUnderMonitoringConfig":{
+		"systemId" : "openDlvMonitor",	
+		"systemVariables": {
+				"monitorVars":{
+				"monitors": ["odsimcamera"], 
+				"monitoringVars": ["pixelsPerByte"] 
+			}
+		},
+		"systemConfiguration": {
+			"monitorConfig":{
+				"monitors": [{
+						"type": "SENSOR",
+						"monitorAttributes": {
+							"monitorId": "odsimcamera",
+							"frequency": 500,
+							"cost": {"type":"POWER", "value":1},
+							"monitoringVars": ["pixelsPerByte"]
+						}
+					}],
+				"monitoringVars": [{
+						"varId": "odsimcamera",
+						"type": "NOMINAL", 
+						"valueCharacteristics": {
+							"valueType": "INT",
+		                    			"values":["3"]
+						}
+				}]
+			}
+		}
+	}
+}
