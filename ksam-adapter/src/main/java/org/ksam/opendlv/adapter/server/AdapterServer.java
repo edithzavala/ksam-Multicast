@@ -77,7 +77,7 @@ public class AdapterServer implements Runnable {
 		byte[] data = new byte[1024];
 		dis.read(data);
 		String s = new String(data);
-		LOGGER.info(s);
+		// LOGGER.info(s);
 
 		Observable.just(s).subscribe(t -> forwardData(t));
 

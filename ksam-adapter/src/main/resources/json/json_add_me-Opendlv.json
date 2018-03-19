@@ -22,8 +22,8 @@
 		"systemId" : "openDlvMonitor",	
 		"systemVariables": {
 				"monitorVars":{
-				"monitors": ["odsimcamera"], 
-				"monitoringVars": ["pixelsPerByte"] 
+				"monitors": ["odsimcamera", "i_frontRight", "i_rear", "i_rearRight", "u_frontCenter", "u_frontRight", "u_rearRight"], 
+				"monitoringVars": ["name", "i_frontRightDistance", "i_rearDistance", "i_rearRightDistance", "u_frontCenterDistance", "u_frontRightDistance", "u_rearRightDistance"] 
 			}
 		},
 		"systemConfiguration": {
@@ -32,17 +32,119 @@
 						"type": "SENSOR",
 						"monitorAttributes": {
 							"monitorId": "odsimcamera",
-							"frequency": 500,
+							"frequency": 10,
+							"cost": {"type":"POWER", "value":2},
+							"monitoringVars": ["name"]
+						}
+					},
+					{
+						"type": "SENSOR",
+						"monitorAttributes": {
+							"monitorId": "i_frontRight",
+							"frequency": 10,
 							"cost": {"type":"POWER", "value":1},
-							"monitoringVars": ["pixelsPerByte"]
+							"monitoringVars": ["i_frontRightDistance"]
+						}
+					},
+					{
+						"type": "SENSOR",
+						"monitorAttributes": {
+							"monitorId": "i_rear",
+							"frequency": 10,
+							"cost": {"type":"POWER", "value":1},
+							"monitoringVars": ["i_rearDistance"]
+						}
+					},
+					{
+						"type": "SENSOR",
+						"monitorAttributes": {
+							"monitorId": "i_rearRight",
+							"frequency": 10,
+							"cost": {"type":"POWER", "value":1},
+							"monitoringVars": ["i_rearRightDistance"]
+						}
+					},
+					{
+						"type": "SENSOR",
+						"monitorAttributes": {
+							"monitorId": "u_frontCenter",
+							"frequency": 10,
+							"cost": {"type":"POWER", "value":3},
+							"monitoringVars": ["u_frontCenterDistance"]
+						}
+					},
+					{
+						"type": "SENSOR",
+						"monitorAttributes": {
+							"monitorId": "u_frontRight",
+							"frequency": 10,
+							"cost": {"type":"POWER", "value":3},
+							"monitoringVars": ["u_frontRightDistance"]
+						}
+					},
+					{
+						"type": "SENSOR",
+						"monitorAttributes": {
+							"monitorId": "u_rearRight",
+							"frequency": 10,
+							"cost": {"type":"POWER", "value":3},
+							"monitoringVars": ["u_rearRightDistance"]
 						}
 					}],
 				"monitoringVars": [{
-						"varId": "odsimcamera",
+						"varId": "name",
 						"type": "NOMINAL", 
 						"valueCharacteristics": {
-							"valueType": "INT",
-		                    			"values":["3"]
+							"valueType": "STRING",
+		                    "values":["odsimcamera"]
+						}
+				},
+				{
+						"varId": "i_frontRightDistance",
+						"type": "NUMERIC", 
+						"valueCharacteristics": {
+							"valueType": "DOUBLE",
+		                    "values":[-1,5]
+						}
+				},
+				{
+						"varId": "i_rearDistance",
+						"type": "NUMERIC", 
+						"valueCharacteristics": {
+							"valueType": "DOUBLE",
+		                    "values":[-1,5]
+						}
+				},
+				{
+						"varId": "i_rearRightDistance",
+						"type": "NUMERIC", 
+						"valueCharacteristics": {
+							"valueType": "DOUBLE",
+		                    "values":[-1,5]
+						}
+				},
+				{
+						"varId": "u_frontCenterDistance",
+						"type": "NUMERIC", 
+						"valueCharacteristics": {
+							"valueType": "DOUBLE",
+		                    "values":[0,30]
+						}
+				},
+				{
+						"varId": "u_frontRightDistance",
+						"type": "NUMERIC", 
+						"valueCharacteristics": {
+							"valueType": "DOUBLE",
+		                    "values":[-1,5]
+						}
+				},
+				{
+						"varId": "u_rearRightDistance",
+						"type": "NUMERIC", 
+						"valueCharacteristics": {
+							"valueType": "DOUBLE",
+		                    "values":[-1,5]
 						}
 				}]
 			}
