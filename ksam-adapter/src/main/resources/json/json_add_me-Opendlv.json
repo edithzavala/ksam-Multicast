@@ -6,27 +6,118 @@
 			"frequency" : null
 		},
 		"analyzerConfig":{
-			"problemId" :"SensorStateMonitoring"
+			"problemId" :"StateDrivenMonitoring",
+			"analysisTechniques":[{
+				"techId":"ML",
+				"algorithms":[{
+					"algorithmId" :"IMWPP",
+					"algorithmParameters":[
+						{"modelsUpdateFrequency":120000},
+						{"predictionFrequency":1000},
+						{"minimumChangeRate":0.1}
+					],
+					"evaluationParameters":[
+						{"param3":"value"},
+						{"param2":"value"}
+					]
+			}]}
+			]
 		},
 		"plannerConfig": {
+			"planTechniques":[{
+				"techId":"MOO",
+				"algorithms":[{
+					"algorithmId" :"NSGAII",
+					"algorithmParameters":[
+						{"crossOverProbability":"value"},
+						{"rateOfNotRandomSolution":"value"},
+						{"numberOfIterations":"value"},
+						{"populationsSize":"value"}
+					],
+					"evaluationParameters":[
+						{"param1":"value"},
+						{"param2":"value"}
+					]
+			}]}]
 		},
 		"executerConfig":{
 			"adaptationType":"differential",
-			"adaptationsFormat" : "adhocMessage"
+			"adaptationsFormat" : "openDlvMessage"
 		},
 		"kbConfig":{
+			"monDatapersistenceFormat":"csv"
 			
 		}
 	},
 	"systemUnderMonitoringConfig":{
 		"systemId" : "openDlvMonitor",	
 		"systemVariables": {
+				"contextVars":{
+					"states": ["laneFollower", "manual"],
+					"events": ["HighRiskLevel", "NoRisk"]
+				},
 				"monitorVars":{
-				"monitors": ["odsimcamera", "i_frontRight", "i_rear", "i_rearRight", "u_frontCenter", "u_frontRight", "u_rearRight"], 
-				"monitoringVars": ["name", "i_frontRightDistance", "i_rearDistance", "i_rearRightDistance", "u_frontCenterDistance", "u_frontRightDistance", "u_rearRightDistance"] 
+					"monitors": ["odsimcamera", "i_frontRight", "i_rear", "i_rearRight", "u_frontCenter", "u_frontRight", "u_rearRight"], 
+					"monitoringVars": ["imgSize", "i_frontRightDistance", "i_rearDistance", "i_rearRightDistance", "u_frontCenterDistance", "u_frontRightDistance", "u_rearRightDistance"] 
 			}
 		},
 		"systemConfiguration": {
+			"contextConfig":{
+				"states": [{
+						"stateId": "laneFollower",
+						"vars": ["imgSize", "i_frontRightDistance", "i_rearRightDistance", "u_frontCenterDistance", "u_frontRightDistance"],
+						"nextStates": [{
+								"nextStateId": "manual",
+								"rules": [{ 
+										"ruleId": "r1",
+										"events": ["HighRiskLevel"] 
+								}]
+						}]
+					},
+					{
+						"stateId": "manual",
+						"nextStates": [{
+								"nextStateId": "laneFollower",
+								"rules": [{ 
+										"ruleId": "r1",
+										"events": ["NoRisk"] 
+								}]
+						}]
+					}
+				],"events": [{
+						"eventId": "HighRiskLevel",
+						"triggers": [{ 
+							"triggerId": "t1",
+							"conditions": [{
+								"varId": "u_frontCenterDistance",
+								"operator": "LOE",
+								"value": "0"
+							},{
+								"varId": "u_frontRightDistance", 
+								"operator": "LOE",
+								"value": "0"
+							}
+							]
+						}]
+					},
+					{
+						"eventId": "NoRisk",
+						"triggers": [{ 
+							"triggerId": "t1",
+							"conditions": [{
+								"varId": "u_frontCenterDistance",
+								"operator": "GOE",
+								"value": "0"
+							},{
+								"varId": "u_frontRightDistance", 
+								"operator": "GOE",
+								"value": "0"
+							}
+							]
+						}]
+					}
+				]
+			},
 			"monitorConfig":{
 				"monitors": [{
 						"type": "SENSOR",
@@ -34,7 +125,7 @@
 							"monitorId": "odsimcamera",
 							"frequency": 10,
 							"cost": {"type":"POWER", "value":2},
-							"monitoringVars": ["name"]
+							"monitoringVars": ["imgSize"]
 						}
 					},
 					{
@@ -92,11 +183,11 @@
 						}
 					}],
 				"monitoringVars": [{
-						"varId": "name",
-						"type": "NOMINAL", 
+						"varId": "imgSize",
+						"type": "NUMERIC", 
 						"valueCharacteristics": {
-							"valueType": "STRING",
-		                    "values":["odsimcamera"]
+							"valueType": "DOUBLE",
+		                    "values":[0,5000000]
 						}
 				},
 				{
