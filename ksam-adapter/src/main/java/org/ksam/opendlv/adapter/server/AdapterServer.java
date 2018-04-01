@@ -23,10 +23,10 @@ public class AdapterServer implements Runnable {
     private static final Logger LOGGER = LoggerFactory.getLogger(AdapterServer.class);
     private final int PORT_OPENDLV = 8083;
     private final int PORT_KSAM = 8080;
-    private final String SYSTEM_ID = "openDlvMonitor";
+    private final String SYSTEM_ID = "openDlvMonitor_v0";
     private final RestTemplate REST_TEMPLATE = new RestTemplate();
     private final String URL_KSAM = "http://localhost:" + PORT_KSAM;
-    private final String CONFIG = "/json/json_add_me-Opendlv.json";
+    private final String CONFIG = "/json/" + SYSTEM_ID + ".json";
 
     public AdapterServer() {
 	InputStream is = AdapterServer.class.getResourceAsStream(CONFIG);
@@ -74,7 +74,7 @@ public class AdapterServer implements Runnable {
 		Socket socket = server.accept();
 
 		DataInputStream dis = new DataInputStream(socket.getInputStream());
-		byte[] data = new byte[1024];
+		byte[] data = new byte[2048];
 		dis.read(data);
 		String s = new String(data);
 		// LOGGER.info(s);

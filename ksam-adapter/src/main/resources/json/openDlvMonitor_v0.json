@@ -50,11 +50,11 @@
 		}
 	},
 	"systemUnderMonitoringConfig":{
-		"systemId" : "openDlvMonitor",	
+		"systemId" : "openDlvMonitor_v0",	
 		"systemVariables": {
 				"contextVars":{
 					"states": ["laneFollower", "manual"],
-					"events": ["HighRiskLevel", "NoRisk"]
+					"events": []
 				},
 				"monitorVars":{
 					"monitors": ["odsimcamera", "i_frontRight", "i_rear", "i_rearRight", "u_frontCenter", "u_frontRight", "u_rearRight"], 
@@ -67,56 +67,12 @@
 						"stateId": "laneFollower",
 						"vars": ["imgSize", "i_frontRightDistance", "i_rearRightDistance", "u_frontCenterDistance", "u_frontRightDistance"],
 						"nextStates": [{
-								"nextStateId": "manual",
-								"rules": [{ 
-										"ruleId": "r1",
-										"events": ["HighRiskLevel"] 
-								}]
+								"nextStateId": "manual"
 						}]
-					},
-					{
-						"stateId": "manual",
-						"nextStates": [{
-								"nextStateId": "laneFollower",
-								"rules": [{ 
-										"ruleId": "r1",
-										"events": ["NoRisk"] 
-								}]
-						}]
-					}
-				],"events": [{
-						"eventId": "HighRiskLevel",
-						"triggers": [{ 
-							"triggerId": "t1",
-							"conditions": [{
-								"varId": "u_frontCenterDistance",
-								"operator": "LOE",
-								"value": "0"
-							},{
-								"varId": "u_frontRightDistance", 
-								"operator": "LOE",
-								"value": "0"
-							}
-							]
-						}]
-					},
-					{
-						"eventId": "NoRisk",
-						"triggers": [{ 
-							"triggerId": "t1",
-							"conditions": [{
-								"varId": "u_frontCenterDistance",
-								"operator": "GOE",
-								"value": "0"
-							},{
-								"varId": "u_frontRightDistance", 
-								"operator": "GOE",
-								"value": "0"
-							}
-							]
-						}]
-					}
-				]
+				},
+				{
+						"stateId": "manual"
+				}]
 			},
 			"monitorConfig":{
 				"monitors": [{
@@ -195,7 +151,7 @@
 						"type": "NUMERIC", 
 						"valueCharacteristics": {
 							"valueType": "DOUBLE",
-		                    "values":[-1,5]
+		                    "values":[-1,2.9]
 						}
 				},
 				{
@@ -203,7 +159,7 @@
 						"type": "NUMERIC", 
 						"valueCharacteristics": {
 							"valueType": "DOUBLE",
-		                    "values":[-1,5]
+		                    "values":[-1,2.9]
 						}
 				},
 				{
@@ -211,7 +167,7 @@
 						"type": "NUMERIC", 
 						"valueCharacteristics": {
 							"valueType": "DOUBLE",
-		                    "values":[-1,5]
+		                    "values":[-1,2.9]
 						}
 				},
 				{
@@ -219,7 +175,7 @@
 						"type": "NUMERIC", 
 						"valueCharacteristics": {
 							"valueType": "DOUBLE",
-		                    "values":[0,30]
+		                    "values":[-1,39]
 						}
 				},
 				{
@@ -227,7 +183,7 @@
 						"type": "NUMERIC", 
 						"valueCharacteristics": {
 							"valueType": "DOUBLE",
-		                    "values":[-1,5]
+		                    "values":[-1,39]
 						}
 				},
 				{
@@ -235,7 +191,7 @@
 						"type": "NUMERIC", 
 						"valueCharacteristics": {
 							"valueType": "DOUBLE",
-		                    "values":[-1,5]
+		                    "values":[-1,39]
 						}
 				}]
 			}
