@@ -50,14 +50,14 @@
 		}
 	},
 	"systemUnderMonitoringConfig":{
-		"systemId" : "openDlvMonitor_v0",	
+		"systemId" : "openDlvMonitorv0",	
 		"systemVariables": {
 				"contextVars":{
 					"states": ["laneFollower", "manual"],
 					"events": []
 				},
 				"monitorVars":{
-					"monitors": ["odsimcamera", "i_frontRight", "i_rear", "i_rearRight", "u_frontCenter", "u_frontRight", "u_rearRight"], 
+					"monitors": ["odsimcamera", "i_frontRight", "i_rear", "i_rearRight", "u_frontCenter", "u_frontRight", "u_rearRight", "v2vFront", "v2vRear"], 
 					"monitoringVars": ["imgSize", "i_frontRightDistance", "i_rearDistance", "i_rearRightDistance", "u_frontCenterDistance", "u_frontRightDistance", "u_rearRightDistance"] 
 			}
 		},
@@ -75,7 +75,24 @@
 				}]
 			},
 			"monitorConfig":{
+				"initialActiveMonitors":["odsimcamera", "i_frontRight", "i_rear", "i_rearRight", "u_frontCenter", "u_frontRight", "u_rearRight"],
 				"monitors": [{
+						"type": "SERVICE",
+						"monitorAttributes": {
+							"monitorId": "v2vRear",
+							"frequency": 10,
+							"cost": {"type":"POWER", "value":5},
+							"monitoringVars": ["i_rearDistance"]
+						}
+					},{
+						"type": "SERVICE",
+						"monitorAttributes": {
+							"monitorId": "v2vFront",
+							"frequency": 10,
+							"cost": {"type":"POWER", "value":5},
+							"monitoringVars": ["u_frontCenterDistance"]
+						}
+					},{
 						"type": "SENSOR",
 						"monitorAttributes": {
 							"monitorId": "odsimcamera",
