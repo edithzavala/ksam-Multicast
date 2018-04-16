@@ -57,15 +57,15 @@
 					"events": []
 				},
 				"monitorVars":{
-					"monitors": ["odsimcamera", "i_frontRight", "i_rear", "i_rearRight", "u_frontCenter", "u_frontRight", "u_rearRight", "v2vFront", "v2vRear"], 
-					"monitoringVars": ["imgSize", "i_frontRightDistance", "i_rearDistance", "i_rearRightDistance", "u_frontCenterDistance", "u_frontRightDistance", "u_rearRightDistance"] 
+					"monitors": ["odsimcamera", "Infrared_FrontRight", "Infrared_Rear", "Infrared_RearRight", "UltraSonic_FrontCenter", "UltraSonic_FrontRight", "UltraSonic_RearRight", "V2V_FrontCenter", "V2V_Rear"], 
+					"monitoringVars": ["imgSize", "FrontRightDistance", "RearDistance", "RearRightDistance", "FrontCenterDistance"] 
 			}
 		},
 		"systemConfiguration": {
 			"contextConfig":{
 				"states": [{
 						"stateId": "laneFollower",
-						"vars": ["imgSize", "i_frontRightDistance", "i_rearRightDistance", "u_frontCenterDistance", "u_frontRightDistance"],
+						"vars": ["imgSize", "FrontRightDistance", "RearRightDistance", "FrontCenterDistance", "RearDistance"],
 						"nextStates": [{
 								"nextStateId": "manual"
 						}]
@@ -75,22 +75,22 @@
 				}]
 			},
 			"monitorConfig":{
-				"initialActiveMonitors":["odsimcamera", "i_frontRight", "i_rear", "i_rearRight", "u_frontCenter", "u_frontRight", "u_rearRight"],
+				"initialActiveMonitors":["odsimcamera", "Infrared_FrontRight", "Infrared_Rear", "Infrared_RearRight", "UltraSonic_FrontCenter", "UltraSonic_FrontRight", "UltraSonic_RearRight"],
 				"monitors": [{
 						"type": "SERVICE",
 						"monitorAttributes": {
-							"monitorId": "v2vRear",
+							"monitorId": "V2V_Rear",
 							"frequency": 10,
 							"cost": {"type":"POWER", "value":5},
-							"monitoringVars": ["i_rearDistance"]
+							"monitoringVars": ["RearDistance"]
 						}
 					},{
 						"type": "SERVICE",
 						"monitorAttributes": {
-							"monitorId": "v2vFront",
+							"monitorId": "V2V_FrontCenter",
 							"frequency": 10,
 							"cost": {"type":"POWER", "value":5},
-							"monitoringVars": ["u_frontCenterDistance"]
+							"monitoringVars": ["FrontCenterDistance"]
 						}
 					},{
 						"type": "SENSOR",
@@ -104,55 +104,55 @@
 					{
 						"type": "SENSOR",
 						"monitorAttributes": {
-							"monitorId": "i_frontRight",
+							"monitorId": "Infrared_FrontRight",
 							"frequency": 10,
 							"cost": {"type":"POWER", "value":1},
-							"monitoringVars": ["i_frontRightDistance"]
+							"monitoringVars": ["FrontRightDistance"]
 						}
 					},
 					{
 						"type": "SENSOR",
 						"monitorAttributes": {
-							"monitorId": "i_rear",
+							"monitorId": "Infrared_Rear",
 							"frequency": 10,
 							"cost": {"type":"POWER", "value":1},
-							"monitoringVars": ["i_rearDistance"]
+							"monitoringVars": ["RearDistance"]
 						}
 					},
 					{
 						"type": "SENSOR",
 						"monitorAttributes": {
-							"monitorId": "i_rearRight",
+							"monitorId": "Infrared_RearRight",
 							"frequency": 10,
 							"cost": {"type":"POWER", "value":1},
-							"monitoringVars": ["i_rearRightDistance"]
+							"monitoringVars": ["RearRightDistance"]
 						}
 					},
 					{
 						"type": "SENSOR",
 						"monitorAttributes": {
-							"monitorId": "u_frontCenter",
+							"monitorId": "UltraSonic_FrontCenter",
 							"frequency": 10,
 							"cost": {"type":"POWER", "value":3},
-							"monitoringVars": ["u_frontCenterDistance"]
+							"monitoringVars": ["FrontCenterDistance"]
 						}
 					},
 					{
 						"type": "SENSOR",
 						"monitorAttributes": {
-							"monitorId": "u_frontRight",
+							"monitorId": "UltraSonic_FrontRight",
 							"frequency": 10,
 							"cost": {"type":"POWER", "value":3},
-							"monitoringVars": ["u_frontRightDistance"]
+							"monitoringVars": ["FrontRightDistance"]
 						}
 					},
 					{
 						"type": "SENSOR",
 						"monitorAttributes": {
-							"monitorId": "u_rearRight",
+							"monitorId": "UltraSonic_RearRight",
 							"frequency": 10,
 							"cost": {"type":"POWER", "value":3},
-							"monitoringVars": ["u_rearRightDistance"]
+							"monitoringVars": ["RearRightDistance"]
 						}
 					}],
 				"monitoringVars": [{
@@ -164,7 +164,7 @@
 						}
 				},
 				{
-						"varId": "i_frontRightDistance",
+						"varId": "RearDistance",
 						"type": "NUMERIC", 
 						"valueCharacteristics": {
 							"valueType": "DOUBLE",
@@ -172,23 +172,7 @@
 						}
 				},
 				{
-						"varId": "i_rearDistance",
-						"type": "NUMERIC", 
-						"valueCharacteristics": {
-							"valueType": "DOUBLE",
-		                    "values":[-1,2.9]
-						}
-				},
-				{
-						"varId": "i_rearRightDistance",
-						"type": "NUMERIC", 
-						"valueCharacteristics": {
-							"valueType": "DOUBLE",
-		                    "values":[-1,2.9]
-						}
-				},
-				{
-						"varId": "u_frontCenterDistance",
+						"varId": "FrontCenterDistance",
 						"type": "NUMERIC", 
 						"valueCharacteristics": {
 							"valueType": "DOUBLE",
@@ -196,7 +180,7 @@
 						}
 				},
 				{
-						"varId": "u_frontRightDistance",
+						"varId": "FrontRightDistance",
 						"type": "NUMERIC", 
 						"valueCharacteristics": {
 							"valueType": "DOUBLE",
@@ -204,7 +188,7 @@
 						}
 				},
 				{
-						"varId": "u_rearRightDistance",
+						"varId": "RearRightDistance",
 						"type": "NUMERIC", 
 						"valueCharacteristics": {
 							"valueType": "DOUBLE",
