@@ -19,7 +19,7 @@ dependencies {
 
 	// https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java
 	//compile group: 'com.google.protobuf', name: 'protobuf-java', version: '3.5.1'
-	compile("org.springframework.boot:spring-boot-actuator")
+	compile("org.springframework.boot:spring-boot-starter-actuator")
     
     compile("org.springframework:spring-web")
     
@@ -39,4 +39,3 @@ dependencies {
 task wrapper(type: Wrapper) {
       gradleVersion = '4.5'
 }
-

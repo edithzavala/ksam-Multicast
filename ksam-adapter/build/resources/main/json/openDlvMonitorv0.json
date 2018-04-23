@@ -1,0 +1,201 @@
+{
+	"ksamConfig":{
+		"monitorConfig":{
+			"monMechanisms" :["push"],
+			"monOperations" :["normalize"],
+			"frequency" : null
+		},
+		"analyzerConfig":{
+			"problemId" :"StateDrivenMonitoring",
+			"analysisTechniques":[{
+				"techId":"ML",
+				"algorithms":[{
+					"algorithmId" :"IMWPP",
+					"algorithmParameters":[
+						{"modelsUpdateFrequency":120000},
+						{"predictionFrequency":1000},
+						{"minimumChangeRate":0.1}
+					],
+					"evaluationParameters":[
+						{"param3":"value"},
+						{"param2":"value"}
+					]
+			}]}
+			]
+		},
+		"plannerConfig": {
+			"planTechniques":[{
+				"techId":"MOO",
+				"algorithms":[{
+					"algorithmId" :"NSGAII",
+					"algorithmParameters":[
+						{"crossOverProbability":"value"},
+						{"rateOfNotRandomSolution":"value"},
+						{"numberOfIterations":"value"},
+						{"populationsSize":"value"}
+					],
+					"evaluationParameters":[
+						{"param1":"value"},
+						{"param2":"value"}
+					]
+			}]}]
+		},
+		"executerConfig":{
+			"adaptationType":"differential",
+			"adaptationsFormat" : "openDlvMessage"
+		},
+		"kbConfig":{
+			"monDatapersistenceFormat":"csv"
+			
+		}
+	},
+	"systemUnderMonitoringConfig":{
+		"systemId" : "openDlvMonitorv0",	
+		"systemVariables": {
+				"contextVars":{
+					"states": ["laneFollower", "manual"],
+					"events": []
+				},
+				"monitorVars":{
+					"monitors": ["odsimcamera", "Infrared_FrontRight", "Infrared_Rear", "Infrared_RearRight", "UltraSonic_FrontCenter", "UltraSonic_FrontRight", "UltraSonic_RearRight", "V2V_FrontCenter", "V2V_Rear"], 
+					"monitoringVars": ["imgSize", "FrontRightDistance", "RearDistance", "RearRightDistance", "FrontCenterDistance"] 
+			}
+		},
+		"systemConfiguration": {
+			"contextConfig":{
+				"states": [{
+						"stateId": "laneFollower",
+						"vars": ["imgSize", "FrontRightDistance", "RearRightDistance", "FrontCenterDistance", "RearDistance"],
+						"nextStates": [{
+								"nextStateId": "manual"
+						}]
+				},
+				{
+						"stateId": "manual"
+				}]
+			},
+			"monitorConfig":{
+				"initialActiveMonitors":["odsimcamera", "Infrared_FrontRight", "Infrared_Rear", "Infrared_RearRight", "UltraSonic_FrontCenter", "UltraSonic_FrontRight", "UltraSonic_RearRight"],
+				"monitors": [{
+						"type": "SERVICE",
+						"monitorAttributes": {
+							"monitorId": "V2V_Rear",
+							"frequency": 10,
+							"cost": {"type":"POWER", "value":5},
+							"monitoringVars": ["RearDistance"]
+						}
+					},{
+						"type": "SERVICE",
+						"monitorAttributes": {
+							"monitorId": "V2V_FrontCenter",
+							"frequency": 10,
+							"cost": {"type":"POWER", "value":5},
+							"monitoringVars": ["FrontCenterDistance"]
+						}
+					},{
+						"type": "SENSOR",
+						"monitorAttributes": {
+							"monitorId": "odsimcamera",
+							"frequency": 10,
+							"cost": {"type":"POWER", "value":2},
+							"monitoringVars": ["imgSize"]
+						}
+					},
+					{
+						"type": "SENSOR",
+						"monitorAttributes": {
+							"monitorId": "Infrared_FrontRight",
+							"frequency": 10,
+							"cost": {"type":"POWER", "value":1},
+							"monitoringVars": ["FrontRightDistance"]
+						}
+					},
+					{
+						"type": "SENSOR",
+						"monitorAttributes": {
+							"monitorId": "Infrared_Rear",
+							"frequency": 10,
+							"cost": {"type":"POWER", "value":1},
+							"monitoringVars": ["RearDistance"]
+						}
+					},
+					{
+						"type": "SENSOR",
+						"monitorAttributes": {
+							"monitorId": "Infrared_RearRight",
+							"frequency": 10,
+							"cost": {"type":"POWER", "value":1},
+							"monitoringVars": ["RearRightDistance"]
+						}
+					},
+					{
+						"type": "SENSOR",
+						"monitorAttributes": {
+							"monitorId": "UltraSonic_FrontCenter",
+							"frequency": 10,
+							"cost": {"type":"POWER", "value":3},
+							"monitoringVars": ["FrontCenterDistance"]
+						}
+					},
+					{
+						"type": "SENSOR",
+						"monitorAttributes": {
+							"monitorId": "UltraSonic_FrontRight",
+							"frequency": 10,
+							"cost": {"type":"POWER", "value":3},
+							"monitoringVars": ["FrontRightDistance"]
+						}
+					},
+					{
+						"type": "SENSOR",
+						"monitorAttributes": {
+							"monitorId": "UltraSonic_RearRight",
+							"frequency": 10,
+							"cost": {"type":"POWER", "value":3},
+							"monitoringVars": ["RearRightDistance"]
+						}
+					}],
+				"monitoringVars": [{
+						"varId": "imgSize",
+						"type": "NUMERIC", 
+						"valueCharacteristics": {
+							"valueType": "DOUBLE",
+		                    "values":[0,5000000]
+						}
+				},
+				{
+						"varId": "RearDistance",
+						"type": "NUMERIC", 
+						"valueCharacteristics": {
+							"valueType": "DOUBLE",
+		                    "values":[-1,39]
+						}
+				},
+				{
+						"varId": "FrontCenterDistance",
+						"type": "NUMERIC", 
+						"valueCharacteristics": {
+							"valueType": "DOUBLE",
+		                    "values":[-1,39]
+						}
+				},
+				{
+						"varId": "FrontRightDistance",
+						"type": "NUMERIC", 
+						"valueCharacteristics": {
+							"valueType": "DOUBLE",
+		                    "values":[-1,39]
+						}
+				},
+				{
+						"varId": "RearRightDistance",
+						"type": "NUMERIC", 
+						"valueCharacteristics": {
+							"valueType": "DOUBLE",
+		                    "values":[-1,39]
+						}
+				}]
+			}
+		}
+	}
+}

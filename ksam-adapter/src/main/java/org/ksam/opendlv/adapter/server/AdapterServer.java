@@ -23,6 +23,8 @@ public class AdapterServer implements Runnable {
     private static final Logger LOGGER = LoggerFactory.getLogger(AdapterServer.class);
     private final int PORT_OPENDLV = 8083;
     private final int PORT_KSAM = 8080;
+    // Adapt for supporting different vehicles. E.g., get system ID from JSON
+    // received.
     private final String SYSTEM_ID = "openDlvMonitorv0";
     // private final RestTemplate REST_TEMPLATE = new RestTemplate();
     private final String URL_KSAM = "http://localhost:" + PORT_KSAM;
