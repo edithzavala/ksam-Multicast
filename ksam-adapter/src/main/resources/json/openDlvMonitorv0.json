@@ -57,7 +57,7 @@
 					"events": []
 				},
 				"monitorVars":{
-					"monitors": ["odsimcamera", "Infrared_FrontRight", "Infrared_Rear", "Infrared_RearRight", "UltraSonic_FrontCenter", "UltraSonic_FrontRight", "UltraSonic_RearRight", "V2V_FrontCenter", "V2V_Rear"], 
+					"monitors": ["odsimcamera", "Infrared_FrontRight", "Infrared_Rear", "Infrared_RearRight", "UltraSonic_FrontCenter", "UltraSonic_FrontRight", "UltraSonic_RearRight", "V2VDenm_Event", "V2VCam_FrontCenter"], 
 					"monitoringVars": ["imgSize", "FrontRightDistance", "RearDistance", "RearRightDistance", "FrontCenterDistance"] 
 			}
 		},
@@ -75,28 +75,28 @@
 				}]
 			},
 			"monitorConfig":{
-				"initialActiveMonitors":["odsimcamera", "Infrared_FrontRight", "Infrared_Rear", "Infrared_RearRight", "UltraSonic_FrontCenter", "UltraSonic_FrontRight", "UltraSonic_RearRight"],
+				"initialActiveMonitors":["odsimcamera", "Infrared_FrontRight", "Infrared_Rear", "Infrared_RearRight", "UltraSonic_FrontCenter", "UltraSonic_FrontRight", "UltraSonic_RearRight", "V2VDenm_Event"],
 				"monitors": [{
 						"type": "SERVICE",
 						"monitorAttributes": {
-							"monitorId": "V2V_Rear",
-							"frequency": 10,
+							"monitorId": "V2VCam_FrontCenter",
+							"frequency": 100,
 							"cost": {"type":"POWER", "value":5},
-							"monitoringVars": ["RearDistance"]
+							"monitoringVars": ["FrontCenterDistance"]
 						}
 					},{
 						"type": "SERVICE",
 						"monitorAttributes": {
-							"monitorId": "V2V_FrontCenter",
-							"frequency": 10,
+							"monitorId": "V2VDenm_Event",
+							"frequency": 100,
 							"cost": {"type":"POWER", "value":5},
-							"monitoringVars": ["FrontCenterDistance"]
+							"monitoringVars": ["Event"]
 						}
 					},{
 						"type": "SENSOR",
 						"monitorAttributes": {
 							"monitorId": "odsimcamera",
-							"frequency": 10,
+							"frequency": 100,
 							"cost": {"type":"POWER", "value":2},
 							"monitoringVars": ["imgSize"]
 						}
@@ -105,7 +105,7 @@
 						"type": "SENSOR",
 						"monitorAttributes": {
 							"monitorId": "Infrared_FrontRight",
-							"frequency": 10,
+							"frequency": 100,
 							"cost": {"type":"POWER", "value":1},
 							"monitoringVars": ["FrontRightDistance"]
 						}
@@ -114,7 +114,7 @@
 						"type": "SENSOR",
 						"monitorAttributes": {
 							"monitorId": "Infrared_Rear",
-							"frequency": 10,
+							"frequency": 100,
 							"cost": {"type":"POWER", "value":1},
 							"monitoringVars": ["RearDistance"]
 						}
@@ -132,7 +132,7 @@
 						"type": "SENSOR",
 						"monitorAttributes": {
 							"monitorId": "UltraSonic_FrontCenter",
-							"frequency": 10,
+							"frequency": 100,
 							"cost": {"type":"POWER", "value":3},
 							"monitoringVars": ["FrontCenterDistance"]
 						}
@@ -141,7 +141,7 @@
 						"type": "SENSOR",
 						"monitorAttributes": {
 							"monitorId": "UltraSonic_FrontRight",
-							"frequency": 10,
+							"frequency": 100,
 							"cost": {"type":"POWER", "value":3},
 							"monitoringVars": ["FrontRightDistance"]
 						}
@@ -150,7 +150,7 @@
 						"type": "SENSOR",
 						"monitorAttributes": {
 							"monitorId": "UltraSonic_RearRight",
-							"frequency": 10,
+							"frequency": 100,
 							"cost": {"type":"POWER", "value":3},
 							"monitoringVars": ["RearRightDistance"]
 						}
@@ -193,6 +193,14 @@
 						"valueCharacteristics": {
 							"valueType": "DOUBLE",
 		                    "values":[-1,39]
+						}
+				},
+				{
+						"varId": "Event",
+						"type": "NOMINAL", 
+						"valueCharacteristics": {
+							"valueType": "STRING",
+		                    "values":["CRASH"]
 						}
 				}]
 			}
