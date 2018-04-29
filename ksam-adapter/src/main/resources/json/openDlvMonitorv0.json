@@ -57,8 +57,8 @@
 					"events": []
 				},
 				"monitorVars":{
-					"monitors": ["odsimcamera", "Infrared_FrontRight", "Infrared_Rear", "Infrared_RearRight", "UltraSonic_FrontCenter", "UltraSonic_FrontRight", "UltraSonic_RearRight", "V2VDenm_Event", "V2VCam_FrontCenter"], 
-					"monitoringVars": ["imgSize", "FrontRightDistance", "RearDistance", "RearRightDistance", "FrontCenterDistance"] 
+					"monitors": ["imuodsimcvehicle", "odsimcamera", "Infrared_FrontRight", "Infrared_Rear", "Infrared_RearRight", "UltraSonic_FrontCenter", "UltraSonic_FrontRight", "UltraSonic_RearRight", "V2VDenm_Event", "V2VCam_FrontCenter"], 
+					"monitoringVars": ["speed", "imgSize", "FrontRightDistance", "RearDistance", "RearRightDistance", "FrontCenterDistance"] 
 			}
 		},
 		"systemConfiguration": {
@@ -75,8 +75,16 @@
 				}]
 			},
 			"monitorConfig":{
-				"initialActiveMonitors":["odsimcamera", "Infrared_FrontRight", "Infrared_Rear", "Infrared_RearRight", "UltraSonic_FrontCenter", "UltraSonic_FrontRight", "UltraSonic_RearRight", "V2VDenm_Event"],
+				"initialActiveMonitors":["imuodsimcvehicle", "odsimcamera", "Infrared_FrontRight", "Infrared_Rear", "Infrared_RearRight", "UltraSonic_FrontCenter", "UltraSonic_FrontRight", "UltraSonic_RearRight", "V2VDenm_Event"],
 				"monitors": [{
+						"type": "LOG",
+						"monitorAttributes": {
+							"monitorId": "imuodsimcvehicle",
+							"frequency": 100,
+							"cost": {"type":"POWER", "value":1},
+							"monitoringVars": ["speed"]
+						}
+					},{
 						"type": "SERVICE",
 						"monitorAttributes": {
 							"monitorId": "V2VCam_FrontCenter",
@@ -156,6 +164,13 @@
 						}
 					}],
 				"monitoringVars": [{
+						"varId": "speed",
+						"type": "NUMERIC", 
+						"valueCharacteristics": {
+							"valueType": "DOUBLE",
+		                    "values":[0,2]
+						}
+				},{
 						"varId": "imgSize",
 						"type": "NUMERIC", 
 						"valueCharacteristics": {
