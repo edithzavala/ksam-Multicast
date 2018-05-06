@@ -58,14 +58,14 @@
 				},
 				"monitorVars":{
 					"monitors": ["imuodsimcvehicle", "odsimcamera", "Infrared_FrontRight", "Infrared_Rear", "Infrared_RearRight", "UltraSonic_FrontCenter", "UltraSonic_FrontRight", "UltraSonic_RearRight", "V2VDenm_Event", "V2VCam_FrontCenter"], 
-					"monitoringVars": ["speed", "imgSize", "FrontRightDistance", "RearDistance", "RearRightDistance", "FrontCenterDistance"] 
+					"monitoringVars": ["speed", "imgSize", "FrontRightDistance", "RearDistance", "RearRightDistance", "FrontCenterDistance", "Event"] 
 			}
 		},
 		"systemConfiguration": {
 			"contextConfig":{
 				"states": [{
 						"stateId": "laneFollower",
-						"vars": ["imgSize", "FrontRightDistance", "RearRightDistance", "FrontCenterDistance", "RearDistance"],
+						"vars": ["imgSize", "FrontRightDistance", "RearRightDistance", "FrontCenterDistance"],
 						"nextStates": [{
 								"nextStateId": "manual"
 						}]
@@ -76,6 +76,7 @@
 			},
 			"monitorConfig":{
 				"initialActiveMonitors":["imuodsimcvehicle", "odsimcamera", "Infrared_FrontRight", "Infrared_Rear", "Infrared_RearRight", "UltraSonic_FrontCenter", "UltraSonic_FrontRight", "UltraSonic_RearRight", "V2VDenm_Event"],
+				"persistenceMonitors":["imuodsimcvehicle", "odsimcamera", "Infrared_FrontRight", "Infrared_Rear", "Infrared_RearRight", "UltraSonic_FrontCenter", "UltraSonic_FrontRight", "UltraSonic_RearRight"],
 				"monitors": [{
 						"type": "LOG",
 						"monitorAttributes": {
