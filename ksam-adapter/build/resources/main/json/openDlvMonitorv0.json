@@ -10,15 +10,14 @@
 			"analysisTechniques":[{
 				"techId":"ML",
 				"algorithms":[{
-					"algorithmId" :"IMWPP",
+					"algorithmId" :"JRip",
 					"algorithmParameters":[
-						{"modelsUpdateFrequency":120000},
-						{"predictionFrequency":1000},
-						{"minimumChangeRate":0.1}
+						{"crossvalidationfolds":10}
 					],
 					"evaluationParameters":[
-						{"param3":"value"},
-						{"param2":"value"}
+						{"precision":0.9},
+						{"recal":0.9},
+						{"fmeasure":0.9}
 					]
 			}]}
 			]
@@ -45,7 +44,7 @@
 			"adaptationsFormat" : "openDlvMessage"
 		},
 		"kbConfig":{
-			"monDatapersistenceFormat":"csv"
+			"monDatapersistenceFormat":"arff"
 			
 		}
 	},
@@ -53,19 +52,19 @@
 		"systemId" : "openDlvMonitorv0",	
 		"systemVariables": {
 				"contextVars":{
-					"states": ["laneFollower", "manual"],
+					"states": ["laneFollower"],
 					"events": []
 				},
 				"monitorVars":{
 					"monitors": ["imuodsimcvehicle", "odsimcamera", "Infrared_FrontRight", "Infrared_Rear", "Infrared_RearRight", "UltraSonic_FrontCenter", "UltraSonic_FrontRight", "UltraSonic_RearRight", "V2VDenm_Event", "V2VCam_FrontCenter"], 
-					"monitoringVars": ["speed", "imgSize", "FrontRightDistance", "RearDistance", "RearRightDistance", "FrontCenterDistance", "Event"] 
+					"monitoringVars": ["longitude", "latitude", "speed", "imgSize", "FrontRightDistance", "RearDistance", "RearRightDistance", "FrontCenterDistance", "Event"] 
 			}
 		},
 		"systemConfiguration": {
 			"contextConfig":{
 				"states": [{
 						"stateId": "laneFollower",
-						"vars": ["imgSize", "FrontRightDistance", "RearRightDistance", "FrontCenterDistance"],
+						"vars": ["longitude", "latitude", "speed", "imgSize", "FrontRightDistance", "RearRightDistance", "FrontCenterDistance"],
 						"nextStates": [{
 								"nextStateId": "manual"
 						}]
@@ -83,7 +82,7 @@
 							"monitorId": "imuodsimcvehicle",
 							"frequency": 100,
 							"cost": {"type":"POWER", "value":1},
-							"monitoringVars": ["speed"]
+							"monitoringVars": ["longitude", "latitude","speed"]
 						}
 					},{
 						"type": "SERVICE",
@@ -165,18 +164,36 @@
 						}
 					}],
 				"monitoringVars": [{
+						"varId": "longitude",
+						"type": "NUMERIC", 
+						"valueCharacteristics": {
+							"valueType": "DOUBLE",
+		                    "values":[-180,180],
+		                    "ranges":["0-0.10","0.10-0.20","0.20-0.30","0.30-0.40","0.40-0.50","0.50-0.60","0.60-0.70","0.70-0.80","0.80-0.90","0.90-0.99"]
+						}
+				},{
+						"varId": "latitude",
+						"type": "NUMERIC", 
+						"valueCharacteristics": {
+							"valueType": "DOUBLE",
+		                    "values":[-90,90],
+		                    "ranges":["0-0.10","0.10-0.20","0.20-0.30","0.30-0.40","0.40-0.50","0.50-0.60","0.60-0.70","0.70-0.80","0.80-0.90","0.90-0.99"]
+						}
+				},{
 						"varId": "speed",
 						"type": "NUMERIC", 
 						"valueCharacteristics": {
 							"valueType": "DOUBLE",
-		                    "values":[0,2]
+		                    "values":[0,2],
+		                    "ranges":["0-0.10","0.10-0.20","0.20-0.30","0.30-0.40","0.40-0.50","0.50-0.60","0.60-0.70","0.70-0.80","0.80-0.90","0.90-0.99"]
 						}
 				},{
 						"varId": "imgSize",
 						"type": "NUMERIC", 
 						"valueCharacteristics": {
 							"valueType": "DOUBLE",
-		                    "values":[0,5000000]
+		                    "values":[0,5000000],
+		                    "ranges":["0-0.10","0.10-0.20","0.20-0.30","0.30-0.40","0.40-0.50","0.50-0.60","0.60-0.70","0.70-0.80","0.80-0.90","0.90-0.99"]
 						}
 				},
 				{
@@ -184,7 +201,8 @@
 						"type": "NUMERIC", 
 						"valueCharacteristics": {
 							"valueType": "DOUBLE",
-		                    "values":[-1,39]
+		                    "values":[-1,39],
+		                    "ranges":["0-0.10","0.10-0.20","0.20-0.30","0.30-0.40","0.40-0.50","0.50-0.60","0.60-0.70","0.70-0.80","0.80-0.90","0.90-0.99"]
 						}
 				},
 				{
@@ -192,7 +210,8 @@
 						"type": "NUMERIC", 
 						"valueCharacteristics": {
 							"valueType": "DOUBLE",
-		                    "values":[-1,39]
+		                    "values":[-1,39],
+		                    "ranges":["0-0.10","0.10-0.20","0.20-0.30","0.30-0.40","0.40-0.50","0.50-0.60","0.60-0.70","0.70-0.80","0.80-0.90","0.90-0.99"]
 						}
 				},
 				{
@@ -200,7 +219,8 @@
 						"type": "NUMERIC", 
 						"valueCharacteristics": {
 							"valueType": "DOUBLE",
-		                    "values":[-1,39]
+		                    "values":[-1,39],
+		                    "ranges":["0-0.10","0.10-0.20","0.20-0.30","0.30-0.40","0.40-0.50","0.50-0.60","0.60-0.70","0.70-0.80","0.80-0.90","0.90-0.99"]
 						}
 				},
 				{
@@ -208,7 +228,8 @@
 						"type": "NUMERIC", 
 						"valueCharacteristics": {
 							"valueType": "DOUBLE",
-		                    "values":[-1,39]
+		                    "values":[-1,39],
+		                    "ranges":["0-0.10","0.10-0.20","0.20-0.30","0.30-0.40","0.40-0.50","0.50-0.60","0.60-0.70","0.70-0.80","0.80-0.90","0.90-0.99"]
 						}
 				},
 				{
