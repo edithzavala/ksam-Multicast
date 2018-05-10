@@ -56,111 +56,37 @@
 					"events": []
 				},
 				"monitorVars":{
-					"monitors": ["imuodsimcvehicle", "odsimcamera", "Infrared_FrontRight", "Infrared_Rear", "Infrared_RearRight", "UltraSonic_FrontCenter", "UltraSonic_FrontRight", "UltraSonic_RearRight", "V2VDenm_Event", "V2VCam_FrontCenter"], 
-					"monitoringVars": ["longitude", "latitude", "speed", "imgSize", "FrontRightDistance", "RearDistance", "RearRightDistance", "FrontCenterDistance", "Event"] 
+					"monitors": ["velodyne32Lidar", "applanixGps"], 
+					"monitoringVars": ["longitude", "latitude", "endAzimuth", "startAzimuth"] 
 			}
 		},
 		"systemConfiguration": {
 			"contextConfig":{
 				"states": [{
 						"stateId": "laneFollower",
-						"vars": ["longitude", "latitude", "speed", "imgSize", "FrontRightDistance", "RearRightDistance", "FrontCenterDistance"],
-						"nextStates": [{
-								"nextStateId": "manual"
-						}]
-				},
-				{
-						"stateId": "manual"
+						"vars": ["longitude", "latitude", "endAzimuth", "startAzimuth"],
+						"nextStates": []
 				}]
 			},
 			"monitorConfig":{
-				"initialActiveMonitors":["imuodsimcvehicle", "odsimcamera", "Infrared_FrontRight", "Infrared_Rear", "Infrared_RearRight", "UltraSonic_FrontCenter", "UltraSonic_FrontRight", "UltraSonic_RearRight", "V2VDenm_Event"],
-				"persistenceMonitors":["imuodsimcvehicle", "odsimcamera", "Infrared_FrontRight", "Infrared_Rear", "Infrared_RearRight", "UltraSonic_FrontCenter", "UltraSonic_FrontRight", "UltraSonic_RearRight"],
+				"initialActiveMonitors":["velodyne32Lidar", "applanixGps"],
+				"persistenceMonitors":["velodyne32Lidar", "applanixGps"],
 				"monitors": [{
-						"type": "LOG",
-						"monitorAttributes": {
-							"monitorId": "imuodsimcvehicle",
-							"frequency": 100,
-							"cost": {"type":"POWER", "value":1},
-							"monitoringVars": ["longitude", "latitude","speed"]
-						}
-					},{
-						"type": "SERVICE",
-						"monitorAttributes": {
-							"monitorId": "V2VCam_FrontCenter",
-							"frequency": 100,
-							"cost": {"type":"POWER", "value":5},
-							"monitoringVars": ["FrontCenterDistance"]
-						}
-					},{
-						"type": "SERVICE",
-						"monitorAttributes": {
-							"monitorId": "V2VDenm_Event",
-							"frequency": 100,
-							"cost": {"type":"POWER", "value":5},
-							"monitoringVars": ["Event"]
-						}
-					},{
 						"type": "SENSOR",
 						"monitorAttributes": {
-							"monitorId": "odsimcamera",
-							"frequency": 100,
-							"cost": {"type":"POWER", "value":2},
-							"monitoringVars": ["imgSize"]
-						}
-					},
-					{
-						"type": "SENSOR",
-						"monitorAttributes": {
-							"monitorId": "Infrared_FrontRight",
-							"frequency": 100,
-							"cost": {"type":"POWER", "value":1},
-							"monitoringVars": ["FrontRightDistance"]
-						}
-					},
-					{
-						"type": "SENSOR",
-						"monitorAttributes": {
-							"monitorId": "Infrared_Rear",
-							"frequency": 100,
-							"cost": {"type":"POWER", "value":1},
-							"monitoringVars": ["RearDistance"]
-						}
-					},
-					{
-						"type": "SENSOR",
-						"monitorAttributes": {
-							"monitorId": "Infrared_RearRight",
-							"frequency": 10,
-							"cost": {"type":"POWER", "value":1},
-							"monitoringVars": ["RearRightDistance"]
-						}
-					},
-					{
-						"type": "SENSOR",
-						"monitorAttributes": {
-							"monitorId": "UltraSonic_FrontCenter",
+							"monitorId": "velodyne32Lidar",
 							"frequency": 100,
 							"cost": {"type":"POWER", "value":3},
-							"monitoringVars": ["FrontCenterDistance"]
+							"monitoringVars": ["endAzimuth", "startAzimuth"]
 						}
 					},
 					{
 						"type": "SENSOR",
 						"monitorAttributes": {
-							"monitorId": "UltraSonic_FrontRight",
+							"monitorId": "applanixGps",
 							"frequency": 100,
 							"cost": {"type":"POWER", "value":3},
-							"monitoringVars": ["FrontRightDistance"]
-						}
-					},
-					{
-						"type": "SENSOR",
-						"monitorAttributes": {
-							"monitorId": "UltraSonic_RearRight",
-							"frequency": 100,
-							"cost": {"type":"POWER", "value":3},
-							"monitoringVars": ["RearRightDistance"]
+							"monitoringVars": ["longitude", "latitude"]
 						}
 					}],
 				"monitoringVars": [{
@@ -180,64 +106,20 @@
 		                    "ranges":["0-0.10","0.10-0.20","0.20-0.30","0.30-0.40","0.40-0.50","0.50-0.60","0.60-0.70","0.70-0.80","0.80-0.90","0.90-0.99"]
 						}
 				},{
-						"varId": "speed",
+						"varId": "endAzimuth",
 						"type": "NUMERIC", 
 						"valueCharacteristics": {
 							"valueType": "DOUBLE",
-		                    "values":[0,2],
+		                    "values":[0,180],
 		                    "ranges":["0-0.10","0.10-0.20","0.20-0.30","0.30-0.40","0.40-0.50","0.50-0.60","0.60-0.70","0.70-0.80","0.80-0.90","0.90-0.99"]
 						}
 				},{
-						"varId": "imgSize",
+						"varId": "startAzimuth",
 						"type": "NUMERIC", 
 						"valueCharacteristics": {
 							"valueType": "DOUBLE",
-		                    "values":[0,5000000],
+		                    "values":[0,180],
 		                    "ranges":["0-0.10","0.10-0.20","0.20-0.30","0.30-0.40","0.40-0.50","0.50-0.60","0.60-0.70","0.70-0.80","0.80-0.90","0.90-0.99"]
-						}
-				},
-				{
-						"varId": "RearDistance",
-						"type": "NUMERIC", 
-						"valueCharacteristics": {
-							"valueType": "DOUBLE",
-		                    "values":[-1,39],
-		                    "ranges":["0-0.10","0.10-0.20","0.20-0.30","0.30-0.40","0.40-0.50","0.50-0.60","0.60-0.70","0.70-0.80","0.80-0.90","0.90-0.99"]
-						}
-				},
-				{
-						"varId": "FrontCenterDistance",
-						"type": "NUMERIC", 
-						"valueCharacteristics": {
-							"valueType": "DOUBLE",
-		                    "values":[-1,39],
-		                    "ranges":["0-0.10","0.10-0.20","0.20-0.30","0.30-0.40","0.40-0.50","0.50-0.60","0.60-0.70","0.70-0.80","0.80-0.90","0.90-0.99"]
-						}
-				},
-				{
-						"varId": "FrontRightDistance",
-						"type": "NUMERIC", 
-						"valueCharacteristics": {
-							"valueType": "DOUBLE",
-		                    "values":[-1,39],
-		                    "ranges":["0-0.10","0.10-0.20","0.20-0.30","0.30-0.40","0.40-0.50","0.50-0.60","0.60-0.70","0.70-0.80","0.80-0.90","0.90-0.99"]
-						}
-				},
-				{
-						"varId": "RearRightDistance",
-						"type": "NUMERIC", 
-						"valueCharacteristics": {
-							"valueType": "DOUBLE",
-		                    "values":[-1,39],
-		                    "ranges":["0-0.10","0.10-0.20","0.20-0.30","0.30-0.40","0.40-0.50","0.50-0.60","0.60-0.70","0.70-0.80","0.80-0.90","0.90-0.99"]
-						}
-				},
-				{
-						"varId": "Event",
-						"type": "NOMINAL", 
-						"valueCharacteristics": {
-							"valueType": "STRING",
-		                    "values":["CRASH"]
 						}
 				}]
 			}
