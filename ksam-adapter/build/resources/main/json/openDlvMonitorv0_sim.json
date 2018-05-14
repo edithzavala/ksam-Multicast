@@ -65,12 +65,7 @@
 				"states": [{
 						"stateId": "laneFollower",
 						"vars": ["longitude", "latitude", "speed", "imgSize", "FrontRightDistance", "RearRightDistance", "FrontCenterDistance"],
-						"nextStates": [{
-								"nextStateId": "manual"
-						}]
-				},
-				{
-						"stateId": "manual"
+						"nextStates": []
 				}]
 			},
 			"monitorConfig":{
