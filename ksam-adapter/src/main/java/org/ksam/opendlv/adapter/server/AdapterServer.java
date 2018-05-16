@@ -28,7 +28,7 @@ public class AdapterServer implements Runnable {
     private final String SYSTEM_ID = "openDlvMonitorv0";
     // private final RestTemplate REST_TEMPLATE = new RestTemplate();
     private final String URL_KSAM = "http://localhost:" + PORT_KSAM;
-    private final String CONFIG = "/json/" + SYSTEM_ID + "_real.json";
+    private final String CONFIG = "/json/" + SYSTEM_ID + ".json";
 
     public AdapterServer() {
 	InputStream is = AdapterServer.class.getResourceAsStream(CONFIG);

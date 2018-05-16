@@ -1,0 +1,241 @@
+{
+	"ksamConfig":{
+		"monitorConfig":{
+			"monMechanisms" :["push"],
+			"monOperations" :["normalize"],
+			"frequency" : null
+		},
+		"analyzerConfig":{
+			"problemId" :"StateDrivenMonitoring",
+			"analysisTechniques":[{
+				"techId":"ML",
+				"algorithms":[{
+					"algorithmId" :"JRip",
+					"algorithmParameters":[
+						{"crossvalidationfolds":10}
+					],
+					"evaluationParameters":[
+						{"precision":0.9},
+						{"recal":0.9},
+						{"fmeasure":0.9}
+					]
+			}]}
+			]
+		},
+		"plannerConfig": {
+			"planTechniques":[{
+				"techId":"MOO",
+				"algorithms":[{
+					"algorithmId" :"NSGAII",
+					"algorithmParameters":[
+						{"crossOverProbability":"value"},
+						{"rateOfNotRandomSolution":"value"},
+						{"numberOfIterations":"value"},
+						{"populationsSize":"value"}
+					],
+					"evaluationParameters":[
+						{"param1":"value"},
+						{"param2":"value"}
+					]
+			}]}]
+		},
+		"executerConfig":{
+			"adaptationType":"differential",
+			"adaptationsFormat" : "openDlvMessage"
+		},
+		"kbConfig":{
+			"monDatapersistenceFormat":"arff"
+			
+		}
+	},
+	"systemUnderMonitoringConfig":{
+		"systemId" : "openDlvMonitorv0",	
+		"systemVariables": {
+				"contextVars":{
+					"states": ["laneFollower"],
+					"events": []
+				},
+				"monitorVars":{
+					"monitors": ["imuodsimcvehicle", "odsimcamera", "Infrared_FrontRight", "Infrared_Rear", "Infrared_RearRight", "UltraSonic_FrontCenter", "UltraSonic_FrontRight", "UltraSonic_RearRight", "V2VDenm_Event", "V2VCam_FrontCenter"], 
+					"monitoringVars": ["longitude", "latitude", "speed", "imgSize", "FrontRightDistance", "RearDistance", "RearRightDistance", "FrontCenterDistance", "Event"] 
+			}
+		},
+		"systemConfiguration": {
+			"contextConfig":{
+				"states": [{
+						"stateId": "laneFollower",
+						"vars": ["longitude", "latitude", "speed", "imgSize", "FrontRightDistance", "RearRightDistance", "FrontCenterDistance"],
+						"nextStates": []
+				}]
+			},
+			"monitorConfig":{
+				"initialActiveMonitors":["imuodsimcvehicle", "odsimcamera", "Infrared_FrontRight", "Infrared_Rear", "Infrared_RearRight", "UltraSonic_FrontCenter", "UltraSonic_FrontRight", "UltraSonic_RearRight", "V2VDenm_Event"],
+				"persistenceMonitors":["imuodsimcvehicle", "odsimcamera", "Infrared_FrontRight", "Infrared_Rear", "Infrared_RearRight", "UltraSonic_FrontCenter", "UltraSonic_FrontRight", "UltraSonic_RearRight"],
+				"monitors": [{
+						"type": "LOG",
+						"monitorAttributes": {
+							"monitorId": "imuodsimcvehicle",
+							"frequency": 100,
+							"cost": {"type":"POWER", "value":1},
+							"monitoringVars": ["longitude", "latitude","speed"]
+						}
+					},{
+						"type": "SERVICE",
+						"monitorAttributes": {
+							"monitorId": "V2VCam_FrontCenter",
+							"frequency": 100,
+							"cost": {"type":"POWER", "value":5},
+							"monitoringVars": ["FrontCenterDistance"]
+						}
+					},{
+						"type": "SERVICE",
+						"monitorAttributes": {
+							"monitorId": "V2VDenm_Event",
+							"frequency": 100,
+							"cost": {"type":"POWER", "value":5},
+							"monitoringVars": ["Event"]
+						}
+					},{
+						"type": "SENSOR",
+						"monitorAttributes": {
+							"monitorId": "odsimcamera",
+							"frequency": 100,
+							"cost": {"type":"POWER", "value":2},
+							"monitoringVars": ["imgSize"]
+						}
+					},
+					{
+						"type": "SENSOR",
+						"monitorAttributes": {
+							"monitorId": "Infrared_FrontRight",
+							"frequency": 100,
+							"cost": {"type":"POWER", "value":1},
+							"monitoringVars": ["FrontRightDistance"]
+						}
+					},
+					{
+						"type": "SENSOR",
+						"monitorAttributes": {
+							"monitorId": "Infrared_Rear",
+							"frequency": 100,
+							"cost": {"type":"POWER", "value":1},
+							"monitoringVars": ["RearDistance"]
+						}
+					},
+					{
+						"type": "SENSOR",
+						"monitorAttributes": {
+							"monitorId": "Infrared_RearRight",
+							"frequency": 10,
+							"cost": {"type":"POWER", "value":1},
+							"monitoringVars": ["RearRightDistance"]
+						}
+					},
+					{
+						"type": "SENSOR",
+						"monitorAttributes": {
+							"monitorId": "UltraSonic_FrontCenter",
+							"frequency": 100,
+							"cost": {"type":"POWER", "value":3},
+							"monitoringVars": ["FrontCenterDistance"]
+						}
+					},
+					{
+						"type": "SENSOR",
+						"monitorAttributes": {
+							"monitorId": "UltraSonic_FrontRight",
+							"frequency": 100,
+							"cost": {"type":"POWER", "value":3},
+							"monitoringVars": ["FrontRightDistance"]
+						}
+					},
+					{
+						"type": "SENSOR",
+						"monitorAttributes": {
+							"monitorId": "UltraSonic_RearRight",
+							"frequency": 100,
+							"cost": {"type":"POWER", "value":3},
+							"monitoringVars": ["RearRightDistance"]
+						}
+					}],
+				"monitoringVars": [{
+						"varId": "longitude",
+						"type": "NUMERIC", 
+						"valueCharacteristics": {
+							"valueType": "DOUBLE",
+		                    "values":[-180,180],
+		                    "ranges":["0-0.10","0.10-0.20","0.20-0.30","0.30-0.40","0.40-0.50","0.50-0.60","0.60-0.70","0.70-0.80","0.80-0.90","0.90-0.99"]
+						}
+				},{
+						"varId": "latitude",
+						"type": "NUMERIC", 
+						"valueCharacteristics": {
+							"valueType": "DOUBLE",
+		                    "values":[-90,90],
+		                    "ranges":["0-0.10","0.10-0.20","0.20-0.30","0.30-0.40","0.40-0.50","0.50-0.60","0.60-0.70","0.70-0.80","0.80-0.90","0.90-0.99"]
+						}
+				},{
+						"varId": "speed",
+						"type": "NUMERIC", 
+						"valueCharacteristics": {
+							"valueType": "DOUBLE",
+		                    "values":[0,2],
+		                    "ranges":["0-0.10","0.10-0.20","0.20-0.30","0.30-0.40","0.40-0.50","0.50-0.60","0.60-0.70","0.70-0.80","0.80-0.90","0.90-0.99"]
+						}
+				},{
+						"varId": "imgSize",
+						"type": "NUMERIC", 
+						"valueCharacteristics": {
+							"valueType": "DOUBLE",
+		                    "values":[0,5000000],
+		                    "ranges":["0-0.10","0.10-0.20","0.20-0.30","0.30-0.40","0.40-0.50","0.50-0.60","0.60-0.70","0.70-0.80","0.80-0.90","0.90-0.99"]
+						}
+				},
+				{
+						"varId": "RearDistance",
+						"type": "NUMERIC", 
+						"valueCharacteristics": {
+							"valueType": "DOUBLE",
+		                    "values":[-1,39],
+		                    "ranges":["0-0.10","0.10-0.20","0.20-0.30","0.30-0.40","0.40-0.50","0.50-0.60","0.60-0.70","0.70-0.80","0.80-0.90","0.90-0.99"]
+						}
+				},
+				{
+						"varId": "FrontCenterDistance",
+						"type": "NUMERIC", 
+						"valueCharacteristics": {
+							"valueType": "DOUBLE",
+		                    "values":[-1,39],
+		                    "ranges":["0-0.10","0.10-0.20","0.20-0.30","0.30-0.40","0.40-0.50","0.50-0.60","0.60-0.70","0.70-0.80","0.80-0.90","0.90-0.99"]
+						}
+				},
+				{
+						"varId": "FrontRightDistance",
+						"type": "NUMERIC", 
+						"valueCharacteristics": {
+							"valueType": "DOUBLE",
+		                    "values":[-1,39],
+		                    "ranges":["0-0.10","0.10-0.20","0.20-0.30","0.30-0.40","0.40-0.50","0.50-0.60","0.60-0.70","0.70-0.80","0.80-0.90","0.90-0.99"]
+						}
+				},
+				{
+						"varId": "RearRightDistance",
+						"type": "NUMERIC", 
+						"valueCharacteristics": {
+							"valueType": "DOUBLE",
+		                    "values":[-1,39],
+		                    "ranges":["0-0.10","0.10-0.20","0.20-0.30","0.30-0.40","0.40-0.50","0.50-0.60","0.60-0.70","0.70-0.80","0.80-0.90","0.90-0.99"]
+						}
+				},
+				{
+						"varId": "Event",
+						"type": "NOMINAL", 
+						"valueCharacteristics": {
+							"valueType": "STRING",
+		                    "values":["CRASH"]
+						}
+				}]
+			}
+		}
+	}
+}
