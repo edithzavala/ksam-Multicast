@@ -56,8 +56,8 @@
 					"events": []
 				},
 				"monitorVars":{
-					"monitors": ["velodyne32Lidar", "applanixGps"], 
-					"monitoringVars": ["longitude", "latitude", "endAzimuth", "startAzimuth"] 
+					"monitors": ["heretraffic", "openweathermap", "velodyne32Lidar", "applanixGps"], 
+					"monitoringVars": ["trafficFactor", "mainWeather", "longitude", "latitude", "endAzimuth", "startAzimuth"] 
 			}
 		},
 		"systemConfiguration": {
@@ -69,9 +69,25 @@
 				}]
 			},
 			"monitorConfig":{
-				"initialActiveMonitors":["velodyne32Lidar", "applanixGps"],
-				"persistenceMonitors":["velodyne32Lidar", "applanixGps"],
+				"initialActiveMonitors":["heretraffic", "openweathermap", "velodyne32Lidar", "applanixGps"],
+				"persistenceMonitors":["heretraffic", "openweathermap", "velodyne32Lidar", "applanixGps"],
 				"monitors": [{
+						"type": "SERVICE",
+						"monitorAttributes": {
+							"monitorId": "heretraffic",
+							"frequency": 1000,
+							"cost": {"type":"POWER", "value":5},
+							"monitoringVars": ["trafficFactor"]
+						}
+					},{
+						"type": "SERVICE",
+						"monitorAttributes": {
+							"monitorId": "openweathermap",
+							"frequency": 60000,
+							"cost": {"type":"POWER", "value":5},
+							"monitoringVars": ["mainWeather"]
+						}
+					},{
 						"type": "SENSOR",
 						"monitorAttributes": {
 							"monitorId": "velodyne32Lidar",
@@ -120,6 +136,22 @@
 							"valueType": "DOUBLE",
 		                    "values":[0.0,1.0],
 		                    "ranges":["0-0.05","0.05-0.10","0.10-0.15","0.15-0.20","0.20-0.25","0.25-0.30","0.30-0.35","0.35-0.40","0.40-0.45","0.45-0.50","0.50-0.55","0.55-0.60","0.60-0.65","0.65-0.70","0.70-0.75","0.75-0.80","0.80-0.85","0.85-0.90","0.90-0.95","0.95-0.99"]
+						}
+				},
+				{
+						"varId": "mainWeather",
+						"type": "NOMINAL", 
+						"valueCharacteristics": {
+							"valueType": "STRING",
+		                    "values":["Rain","Snow","Extreme","Clear","Clouds"]
+						}
+				},{
+						"varId": "trafficFactor",
+						"type": "NUMERIC", 
+						"valueCharacteristics": {
+							"valueType": "DOUBLE",
+		                    "values":[-1,10],
+		                    "ranges":["0-0.10","0.10-0.20","0.20-0.30","0.30-0.40","0.40-0.50","0.50-0.60","0.60-0.70","0.70-0.80","0.80-0.90","0.90-0.99"]
 						}
 				}]
 			}

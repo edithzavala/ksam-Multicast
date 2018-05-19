@@ -56,8 +56,8 @@
 					"events": []
 				},
 				"monitorVars":{
-					"monitors": ["openweathermap", "imuodsimcvehicle", "odsimcamera", "Infrared_FrontRight", "Infrared_Rear", "Infrared_RearRight", "UltraSonic_FrontCenter", "UltraSonic_FrontRight", "UltraSonic_RearRight", "V2VDenm_Event", "V2VCam_FrontCenter"], 
-					"monitoringVars": ["mainWeather","longitude", "latitude", "speed", "imgSize", "FrontRightDistance", "RearDistance", "RearRightDistance", "FrontCenterDistance", "Event"] 
+					"monitors": ["heretraffic", "openweathermap", "imuodsimcvehicle", "odsimcamera", "Infrared_FrontRight", "Infrared_Rear", "Infrared_RearRight", "UltraSonic_FrontCenter", "UltraSonic_FrontRight", "UltraSonic_RearRight", "V2VDenm_Event", "V2VCam_FrontCenter"], 
+					"monitoringVars": ["trafficFactor", "mainWeather", "longitude", "latitude", "speed", "imgSize", "FrontRightDistance", "RearDistance", "RearRightDistance", "FrontCenterDistance", "Event"] 
 			}
 		},
 		"systemConfiguration": {
@@ -69,9 +69,17 @@
 				}]
 			},
 			"monitorConfig":{
-				"initialActiveMonitors":["openweathermap", "imuodsimcvehicle", "odsimcamera", "Infrared_FrontRight", "Infrared_Rear", "Infrared_RearRight", "UltraSonic_FrontCenter", "UltraSonic_FrontRight", "UltraSonic_RearRight", "V2VDenm_Event"],
-				"persistenceMonitors":["openweathermap", "imuodsimcvehicle", "odsimcamera", "Infrared_FrontRight", "Infrared_Rear", "Infrared_RearRight", "UltraSonic_FrontCenter", "UltraSonic_FrontRight", "UltraSonic_RearRight"],
+				"initialActiveMonitors":["heretraffic", "openweathermap", "imuodsimcvehicle", "odsimcamera", "Infrared_FrontRight", "Infrared_Rear", "Infrared_RearRight", "UltraSonic_FrontCenter", "UltraSonic_FrontRight", "UltraSonic_RearRight", "V2VDenm_Event"],
+				"persistenceMonitors":["heretraffic", "openweathermap", "imuodsimcvehicle", "odsimcamera", "Infrared_FrontRight", "Infrared_Rear", "Infrared_RearRight", "UltraSonic_FrontCenter", "UltraSonic_FrontRight", "UltraSonic_RearRight"],
 				"monitors": [{
+						"type": "SERVICE",
+						"monitorAttributes": {
+							"monitorId": "heretraffic",
+							"frequency": 1000,
+							"cost": {"type":"POWER", "value":5},
+							"monitoringVars": ["trafficFactor"]
+						}
+					},{
 						"type": "SERVICE",
 						"monitorAttributes": {
 							"monitorId": "openweathermap",
@@ -167,6 +175,14 @@
 						}
 					}],
 				"monitoringVars": [{
+						"varId": "trafficFactor",
+						"type": "NUMERIC", 
+						"valueCharacteristics": {
+							"valueType": "DOUBLE",
+		                    "values":[-1,10],
+		                    "ranges":["0-0.10","0.10-0.20","0.20-0.30","0.30-0.40","0.40-0.50","0.50-0.60","0.60-0.70","0.70-0.80","0.80-0.90","0.90-0.99"]
+						}
+				},{
 						"varId": "longitude",
 						"type": "NUMERIC", 
 						"valueCharacteristics": {
@@ -240,7 +256,8 @@
 						"type": "NOMINAL", 
 						"valueCharacteristics": {
 							"valueType": "STRING",
-		                    "values":["CRASH"]
+		                    "values":["CRASH"],
+		                    "ranges":["0-0.10","0.10-0.20","0.20-0.30","0.30-0.40","0.40-0.50","0.50-0.60","0.60-0.70","0.70-0.80","0.80-0.90","0.90-0.99"]
 						}
 				},
 				{
