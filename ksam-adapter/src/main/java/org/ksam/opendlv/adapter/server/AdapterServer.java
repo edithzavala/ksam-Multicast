@@ -11,6 +11,7 @@ import java.net.Socket;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
+import org.ksam.opendlv.adapter.replay.Simulator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -30,6 +31,8 @@ public class AdapterServer implements Runnable {
     private final String URL_KSAM = "http://localhost:" + PORT_KSAM;
     private final String CONFIG = "/json/" + SYSTEM_ID + ".json";
 
+    private final boolean replay = true;
+
     public AdapterServer() {
 	InputStream is = AdapterServer.class.getResourceAsStream(CONFIG);
 	StringBuilder json = new StringBuilder();
@@ -44,8 +47,11 @@ public class AdapterServer implements Runnable {
 	}
 	LOGGER.info("Susbcribe openDlvMonitor");
 	postData(json.toString(), URL_KSAM + "/managedElement");
-
-	(new Thread(this)).start();
+	if (!replay) {
+	    (new Thread(this)).start();
+	} else {
+	    new Simulator(this);
+	}
     }
 
     private void postData(String jsonData, String url) {
@@ -56,7 +62,7 @@ public class AdapterServer implements Runnable {
 	restTemplate.postForObject(url, httpEntity, String.class);
     }
 
-    private void forwardData(String s) {
+    public void forwardData(String s) {
 	String sJsonFormmat = s.replace('\'', '\"');
 	LOGGER.info("Forward JSON: " + sJsonFormmat);
 	postData(sJsonFormmat, URL_KSAM + "/" + SYSTEM_ID + "/monitoringData");

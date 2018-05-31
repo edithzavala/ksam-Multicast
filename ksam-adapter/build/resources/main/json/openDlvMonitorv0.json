@@ -56,22 +56,30 @@
 					"events": []
 				},
 				"monitorVars":{
-					"monitors": ["heretraffic", "openweathermap", "imuodsimcvehicle", "odsimcamera", "Infrared_FrontRight", "Infrared_Rear", "Infrared_RearRight", "UltraSonic_FrontCenter", "UltraSonic_FrontRight", "UltraSonic_RearRight", "V2VDenm_Event", "V2VCam_FrontCenter"], 
-					"monitoringVars": ["trafficFactor", "mainWeather", "longitude", "latitude", "speed", "imgSize", "FrontRightDistance", "RearDistance", "RearRightDistance", "FrontCenterDistance", "Event"] 
+					"monitors": ["can","heretraffic", "openweathermap", "velodyne32Lidar", "applanixGps"], 
+					"monitoringVars": ["speed","trafficFactor", "mainWeather", "longitude", "latitude", "endAzimuth", "startAzimuth"] 
 			}
 		},
 		"systemConfiguration": {
 			"contextConfig":{
 				"states": [{
 						"stateId": "laneFollower",
-						"vars": ["longitude", "latitude", "speed", "imgSize", "FrontRightDistance", "RearRightDistance", "FrontCenterDistance"],
+						"vars": ["speed", "longitude", "latitude", "endAzimuth", "startAzimuth"],
 						"nextStates": []
 				}]
 			},
 			"monitorConfig":{
-				"initialActiveMonitors":["heretraffic", "openweathermap", "imuodsimcvehicle", "odsimcamera", "Infrared_FrontRight", "Infrared_Rear", "Infrared_RearRight", "UltraSonic_FrontCenter", "UltraSonic_FrontRight", "UltraSonic_RearRight", "V2VDenm_Event"],
-				"persistenceMonitors":["heretraffic", "openweathermap", "imuodsimcvehicle", "odsimcamera", "Infrared_FrontRight", "Infrared_Rear", "Infrared_RearRight", "UltraSonic_FrontCenter", "UltraSonic_FrontRight", "UltraSonic_RearRight"],
+				"initialActiveMonitors":["can","heretraffic", "openweathermap", "velodyne32Lidar", "applanixGps"],
+				"persistenceMonitors":["can", "heretraffic", "openweathermap", "velodyne32Lidar", "applanixGps"],
 				"monitors": [{
+						"type": "SERVICE",
+						"monitorAttributes": {
+							"monitorId": "can",
+							"frequency": 1000,
+							"cost": {"type":"POWER", "value":1},
+							"monitoringVars": ["speed"]
+						}
+					},{
 						"type": "SERVICE",
 						"monitorAttributes": {
 							"monitorId": "heretraffic",
@@ -88,93 +96,64 @@
 							"monitoringVars": ["mainWeather"]
 						}
 					},{
-						"type": "LOG",
-						"monitorAttributes": {
-							"monitorId": "imuodsimcvehicle",
-							"frequency": 100,
-							"cost": {"type":"POWER", "value":1},
-							"monitoringVars": ["longitude", "latitude","speed"]
-						}
-					},{
-						"type": "SERVICE",
-						"monitorAttributes": {
-							"monitorId": "V2VCam_FrontCenter",
-							"frequency": 100,
-							"cost": {"type":"POWER", "value":5},
-							"monitoringVars": ["FrontCenterDistance"]
-						}
-					},{
-						"type": "SERVICE",
-						"monitorAttributes": {
-							"monitorId": "V2VDenm_Event",
-							"frequency": 100,
-							"cost": {"type":"POWER", "value":5},
-							"monitoringVars": ["Event"]
-						}
-					},{
 						"type": "SENSOR",
 						"monitorAttributes": {
-							"monitorId": "odsimcamera",
-							"frequency": 100,
-							"cost": {"type":"POWER", "value":2},
-							"monitoringVars": ["imgSize"]
-						}
-					},
-					{
-						"type": "SENSOR",
-						"monitorAttributes": {
-							"monitorId": "Infrared_FrontRight",
-							"frequency": 100,
-							"cost": {"type":"POWER", "value":1},
-							"monitoringVars": ["FrontRightDistance"]
-						}
-					},
-					{
-						"type": "SENSOR",
-						"monitorAttributes": {
-							"monitorId": "Infrared_Rear",
-							"frequency": 100,
-							"cost": {"type":"POWER", "value":1},
-							"monitoringVars": ["RearDistance"]
-						}
-					},
-					{
-						"type": "SENSOR",
-						"monitorAttributes": {
-							"monitorId": "Infrared_RearRight",
-							"frequency": 10,
-							"cost": {"type":"POWER", "value":1},
-							"monitoringVars": ["RearRightDistance"]
-						}
-					},
-					{
-						"type": "SENSOR",
-						"monitorAttributes": {
-							"monitorId": "UltraSonic_FrontCenter",
+							"monitorId": "velodyne32Lidar",
 							"frequency": 100,
 							"cost": {"type":"POWER", "value":3},
-							"monitoringVars": ["FrontCenterDistance"]
+							"monitoringVars": ["endAzimuth", "startAzimuth"]
 						}
 					},
 					{
 						"type": "SENSOR",
 						"monitorAttributes": {
-							"monitorId": "UltraSonic_FrontRight",
+							"monitorId": "applanixGps",
 							"frequency": 100,
 							"cost": {"type":"POWER", "value":3},
-							"monitoringVars": ["FrontRightDistance"]
-						}
-					},
-					{
-						"type": "SENSOR",
-						"monitorAttributes": {
-							"monitorId": "UltraSonic_RearRight",
-							"frequency": 100,
-							"cost": {"type":"POWER", "value":3},
-							"monitoringVars": ["RearRightDistance"]
+							"monitoringVars": ["longitude", "latitude"]
 						}
 					}],
 				"monitoringVars": [{
+						"varId": "longitude",
+						"type": "NUMERIC", 
+						"valueCharacteristics": {
+							"valueType": "DOUBLE",
+		                    "values":[12.768000,12.772000],
+		                    "ranges":["0-0.05","0.05-0.10","0.10-0.15","0.15-0.20","0.20-0.25","0.25-0.30","0.30-0.35","0.35-0.40","0.40-0.45","0.45-0.50","0.50-0.55","0.55-0.60","0.60-0.65","0.65-0.70","0.70-0.75","0.75-0.80","0.80-0.85","0.85-0.90","0.90-0.95","0.95-0.99"]
+						}
+				},{
+						"varId": "latitude",
+						"type": "NUMERIC", 
+						"valueCharacteristics": {
+							"valueType": "DOUBLE",
+		                    "values":[57.770000,57.774000],
+		                    "ranges":["0-0.05","0.05-0.10","0.10-0.15","0.15-0.20","0.20-0.25","0.25-0.30","0.30-0.35","0.35-0.40","0.40-0.45","0.45-0.50","0.50-0.55","0.55-0.60","0.60-0.65","0.65-0.70","0.70-0.75","0.75-0.80","0.80-0.85","0.85-0.90","0.90-0.95","0.95-0.99"]
+						}
+				},{
+						"varId": "endAzimuth",
+						"type": "NUMERIC", 
+						"valueCharacteristics": {
+							"valueType": "DOUBLE",
+		                    "values":[359.000000,360.000000],
+		                    "ranges":["0-0.05","0.05-0.10","0.10-0.15","0.15-0.20","0.20-0.25","0.25-0.30","0.30-0.35","0.35-0.40","0.40-0.45","0.45-0.50","0.50-0.55","0.55-0.60","0.60-0.65","0.65-0.70","0.70-0.75","0.75-0.80","0.80-0.85","0.85-0.90","0.90-0.95","0.95-0.99"]
+						}
+				},{
+						"varId": "startAzimuth",
+						"type": "NUMERIC", 
+						"valueCharacteristics": {
+							"valueType": "DOUBLE",
+		                    "values":[0.0,1.0],
+		                    "ranges":["0-0.05","0.05-0.10","0.10-0.15","0.15-0.20","0.20-0.25","0.25-0.30","0.30-0.35","0.35-0.40","0.40-0.45","0.45-0.50","0.50-0.55","0.55-0.60","0.60-0.65","0.65-0.70","0.70-0.75","0.75-0.80","0.80-0.85","0.85-0.90","0.90-0.95","0.95-0.99"]
+						}
+				},
+				{
+						"varId": "mainWeather",
+						"type": "NOMINAL", 
+						"valueCharacteristics": {
+							"valueType": "STRING",
+		                    "values":["Rain","Snow","Extreme","Clear","Clouds"]
+						}
+				},{
 						"varId": "trafficFactor",
 						"type": "NUMERIC", 
 						"valueCharacteristics": {
@@ -183,89 +162,11 @@
 		                    "ranges":["0-0.10","0.10-0.20","0.20-0.30","0.30-0.40","0.40-0.50","0.50-0.60","0.60-0.70","0.70-0.80","0.80-0.90","0.90-0.99"]
 						}
 				},{
-						"varId": "longitude",
-						"type": "NUMERIC", 
-						"valueCharacteristics": {
-							"valueType": "DOUBLE",
-		                    "values":[-180,180],
-		                    "ranges":["0-0.10","0.10-0.20","0.20-0.30","0.30-0.40","0.40-0.50","0.50-0.60","0.60-0.70","0.70-0.80","0.80-0.90","0.90-0.99"]
-						}
-				},{
-						"varId": "latitude",
-						"type": "NUMERIC", 
-						"valueCharacteristics": {
-							"valueType": "DOUBLE",
-		                    "values":[-90,90],
-		                    "ranges":["0-0.10","0.10-0.20","0.20-0.30","0.30-0.40","0.40-0.50","0.50-0.60","0.60-0.70","0.70-0.80","0.80-0.90","0.90-0.99"]
-						}
-				},{
 						"varId": "speed",
 						"type": "NUMERIC", 
 						"valueCharacteristics": {
 							"valueType": "DOUBLE",
-		                    "values":[0,2],
-		                    "ranges":["0-0.10","0.10-0.20","0.20-0.30","0.30-0.40","0.40-0.50","0.50-0.60","0.60-0.70","0.70-0.80","0.80-0.90","0.90-0.99"]
-						}
-				},{
-						"varId": "imgSize",
-						"type": "NUMERIC", 
-						"valueCharacteristics": {
-							"valueType": "DOUBLE",
-		                    "values":[0,5000000],
-		                    "ranges":["0-0.10","0.10-0.20","0.20-0.30","0.30-0.40","0.40-0.50","0.50-0.60","0.60-0.70","0.70-0.80","0.80-0.90","0.90-0.99"]
-						}
-				},
-				{
-						"varId": "RearDistance",
-						"type": "NUMERIC", 
-						"valueCharacteristics": {
-							"valueType": "DOUBLE",
-		                    "values":[-1,39],
-		                    "ranges":["0-0.10","0.10-0.20","0.20-0.30","0.30-0.40","0.40-0.50","0.50-0.60","0.60-0.70","0.70-0.80","0.80-0.90","0.90-0.99"]
-						}
-				},
-				{
-						"varId": "FrontCenterDistance",
-						"type": "NUMERIC", 
-						"valueCharacteristics": {
-							"valueType": "DOUBLE",
-		                    "values":[-1,39],
-		                    "ranges":["0-0.10","0.10-0.20","0.20-0.30","0.30-0.40","0.40-0.50","0.50-0.60","0.60-0.70","0.70-0.80","0.80-0.90","0.90-0.99"]
-						}
-				},
-				{
-						"varId": "FrontRightDistance",
-						"type": "NUMERIC", 
-						"valueCharacteristics": {
-							"valueType": "DOUBLE",
-		                    "values":[-1,39],
-		                    "ranges":["0-0.10","0.10-0.20","0.20-0.30","0.30-0.40","0.40-0.50","0.50-0.60","0.60-0.70","0.70-0.80","0.80-0.90","0.90-0.99"]
-						}
-				},
-				{
-						"varId": "RearRightDistance",
-						"type": "NUMERIC", 
-						"valueCharacteristics": {
-							"valueType": "DOUBLE",
-		                    "values":[-1,39],
-		                    "ranges":["0-0.10","0.10-0.20","0.20-0.30","0.30-0.40","0.40-0.50","0.50-0.60","0.60-0.70","0.70-0.80","0.80-0.90","0.90-0.99"]
-						}
-				},
-				{
-						"varId": "Event",
-						"type": "NOMINAL", 
-						"valueCharacteristics": {
-							"valueType": "STRING",
-		                    "values":["CRASH"],
-		                    "ranges":["0-0.10","0.10-0.20","0.20-0.30","0.30-0.40","0.40-0.50","0.50-0.60","0.60-0.70","0.70-0.80","0.80-0.90","0.90-0.99"]
-						}
-				},
-				{
-						"varId": "mainWeather",
-						"type": "NOMINAL", 
-						"valueCharacteristics": {
-							"valueType": "STRING",
-		                    "values":["Rain","Snow","Extreme","Clear","Clouds"],
+		                    "values":[-30,120],
 		                    "ranges":["0-0.10","0.10-0.20","0.20-0.30","0.30-0.40","0.40-0.50","0.50-0.60","0.60-0.70","0.70-0.80","0.80-0.90","0.90-0.99"]
 						}
 				}]
