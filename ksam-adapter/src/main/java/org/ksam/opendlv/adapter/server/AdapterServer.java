@@ -11,7 +11,7 @@ import java.net.Socket;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
-import org.ksam.opendlv.adapter.replay.Simulator;
+import org.ksam.opendlv.adapter.replay.Replayer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -22,15 +22,15 @@ import io.reactivex.Observable;
 
 public class AdapterServer implements Runnable {
     private static final Logger LOGGER = LoggerFactory.getLogger(AdapterServer.class);
+
+    // This kind of variables should go into a config file
+    // ---- Adapt for supporting different vehicles. E.g., get system ID from JSON
+    // ---- received.
     private final int PORT_OPENDLV = 8083;
     private final int PORT_KSAM = 8080;
-    // Adapt for supporting different vehicles. E.g., get system ID from JSON
-    // received.
     private final String SYSTEM_ID = "openDlvMonitorv0";
-    // private final RestTemplate REST_TEMPLATE = new RestTemplate();
     private final String URL_KSAM = "http://localhost:" + PORT_KSAM;
     private final String CONFIG = "/json/" + SYSTEM_ID + ".json";
-
     private final boolean replay = true;
 
     public AdapterServer() {
@@ -50,7 +50,7 @@ public class AdapterServer implements Runnable {
 	if (!replay) {
 	    (new Thread(this)).start();
 	} else {
-	    new Simulator(this);
+	    new Replayer(this);
 	}
     }
 

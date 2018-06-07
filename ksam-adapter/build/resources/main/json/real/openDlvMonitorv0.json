@@ -57,14 +57,14 @@
 				},
 				"monitorVars":{
 					"monitors": ["can","heretraffic", "openweathermap", "velodyne32Lidar", "applanixGps"], 
-					"monitoringVars": ["speed","trafficFactor", "mainWeather", "longitude", "latitude", "endAzimuth", "startAzimuth"] 
+					"monitoringVars": ["speed","trafficFactor", "mainWeather", "longitude", "latitude", "endAzimuth", "startAzimuth", "frontaldistance", "rightdistance", "leftdistance", "reardistance"] 
 			}
 		},
 		"systemConfiguration": {
 			"contextConfig":{
 				"states": [{
 						"stateId": "laneFollower",
-						"vars": ["speed", "longitude", "latitude", "endAzimuth", "startAzimuth"],
+						"vars": ["speed", "longitude", "latitude", "endAzimuth", "startAzimuth", "frontaldistance", "rightdistance", "leftdistance", "reardistance"],
 						"nextStates": []
 				}]
 			},
@@ -76,7 +76,7 @@
 						"monitorAttributes": {
 							"monitorId": "can",
 							"frequency": 1000,
-							"cost": {"type":"POWER", "value":1},
+							"cost": {"type":"POWER", "value":3},
 							"monitoringVars": ["speed"]
 						}
 					},{
@@ -101,7 +101,7 @@
 							"monitorId": "velodyne32Lidar",
 							"frequency": 100,
 							"cost": {"type":"POWER", "value":3},
-							"monitoringVars": ["endAzimuth", "startAzimuth"]
+							"monitoringVars": ["endAzimuth", "startAzimuth", "frontaldistance", "rightdistance", "leftdistance", "reardistance"]
 						}
 					},
 					{
@@ -109,11 +109,43 @@
 						"monitorAttributes": {
 							"monitorId": "applanixGps",
 							"frequency": 100,
-							"cost": {"type":"POWER", "value":3},
-							"monitoringVars": ["longitude", "latitude"]
+							"cost": {"type":"POWER", "value":2},
+							"monitoringVars": ["longitude", "latitude", "speed"]
 						}
 					}],
 				"monitoringVars": [{
+						"varId": "frontaldistance",
+						"type": "NUMERIC", 
+						"valueCharacteristics": {
+							"valueType": "DOUBLE",
+		                    "values":[0,100],
+		                    "ranges":["0-0.05","0.05-0.10","0.10-0.15","0.15-0.20","0.20-0.25","0.25-0.30","0.30-0.35","0.35-0.40","0.40-0.45","0.45-0.50","0.50-0.55","0.55-0.60","0.60-0.65","0.65-0.70","0.70-0.75","0.75-0.80","0.80-0.85","0.85-0.90","0.90-0.95","0.95-0.99"]
+						}
+				},{
+						"varId": "rightdistance",
+						"type": "NUMERIC", 
+						"valueCharacteristics": {
+							"valueType": "DOUBLE",
+		                    "values":[0,100],
+		                    "ranges":["0-0.05","0.05-0.10","0.10-0.15","0.15-0.20","0.20-0.25","0.25-0.30","0.30-0.35","0.35-0.40","0.40-0.45","0.45-0.50","0.50-0.55","0.55-0.60","0.60-0.65","0.65-0.70","0.70-0.75","0.75-0.80","0.80-0.85","0.85-0.90","0.90-0.95","0.95-0.99"]
+						}
+				},{
+						"varId": "leftdistance",
+						"type": "NUMERIC", 
+						"valueCharacteristics": {
+							"valueType": "DOUBLE",
+		                    "values":[0,100],
+		                    "ranges":["0-0.05","0.05-0.10","0.10-0.15","0.15-0.20","0.20-0.25","0.25-0.30","0.30-0.35","0.35-0.40","0.40-0.45","0.45-0.50","0.50-0.55","0.55-0.60","0.60-0.65","0.65-0.70","0.70-0.75","0.75-0.80","0.80-0.85","0.85-0.90","0.90-0.95","0.95-0.99"]
+						}
+				},{
+						"varId": "reardistance",
+						"type": "NUMERIC", 
+						"valueCharacteristics": {
+							"valueType": "DOUBLE",
+		                    "values":[0,100],
+		                    "ranges":["0-0.05","0.05-0.10","0.10-0.15","0.15-0.20","0.20-0.25","0.25-0.30","0.30-0.35","0.35-0.40","0.40-0.45","0.45-0.50","0.50-0.55","0.55-0.60","0.60-0.65","0.65-0.70","0.70-0.75","0.75-0.80","0.80-0.85","0.85-0.90","0.90-0.95","0.95-0.99"]
+						}
+				},{
 						"varId": "longitude",
 						"type": "NUMERIC", 
 						"valueCharacteristics": {
