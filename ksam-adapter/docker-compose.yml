@@ -10,6 +10,8 @@ services:
         - /weka_ksam/:/tmp/weka
         network_mode: host
  # microservice city data monitor
-    cityreporter:
-        image: cityreporter
-        network_mode: host
+    #cityreporter:
+    #    image: cityreporter
+    #    depends_on:
+    #        - ksam-adapter
+    #    network_mode: host
