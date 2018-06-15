@@ -2,13 +2,14 @@ version: '2'
 
 services:
     ksam-adapter:
-        build: .
         image: ksam-adapter:latest
         ports:
             - "8083:8083"
+            - "8088:8080"
         volumes:
         - /weka_ksam/:/tmp/weka
         network_mode: host
+
  # microservice city data monitor
     #cityreporter:
     #    image: cityreporter

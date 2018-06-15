@@ -56,7 +56,7 @@
 					"events": []
 				},
 				"monitorVars":{
-					"monitors": ["axiscamera","can","heretraffic", "openweathermap", "velodyne32Lidar", "applanixGps", "V2VDenm_Event", "V2VCam_FrontCenter"], 
+					"monitors": ["axiscamera", "heretraffic", "openweathermap", "velodyne32Lidar", "applanixGps", "V2VDenm_Event", "V2VCam_FrontCenter"], 
 					"monitoringVars": ["imgSize", "Event", "speed","trafficFactor", "mainWeather", "longitude", "latitude", "endAzimuth", "startAzimuth", "frontaldistance", "rightdistance", "leftdistance", "reardistance"] 
 			}
 		},
@@ -64,13 +64,13 @@
 			"contextConfig":{
 				"states": [{
 						"stateId": "laneFollower",
-						"vars": ["trafficFactor", "speed", "frontaldistance", "rightdistance", "leftdistance", "reardistance"],
+						"vars": ["trafficFactor", "mainWeather", "frontaldistance", "rightdistance", "leftdistance", "reardistance"],
 						"nextStates": []
 				}]
 			},
 			"monitorConfig":{
-				"initialActiveMonitors":["can","heretraffic", "openweathermap", "velodyne32Lidar", "applanixGps"],
-				"persistenceMonitors":["axiscamera", "can", "heretraffic", "openweathermap", "velodyne32Lidar", "applanixGps"],
+				"initialActiveMonitors":["axiscamera","heretraffic", "openweathermap", "velodyne32Lidar", "applanixGps"],
+				"persistenceMonitors":["axiscamera", "heretraffic", "openweathermap", "velodyne32Lidar", "applanixGps"],
 				"monitors": [
 					{
 						"type": "SENSOR",
@@ -79,14 +79,6 @@
 							"frequency": 50,
 							"cost": {"type":"POWER", "value":6},
 							"monitoringVars": ["frontaldistance", "imgSize"]
-						}
-					},{
-						"type": "SERVICE",
-						"monitorAttributes": {
-							"monitorId": "can",
-							"frequency": 1000,
-							"cost": {"type":"POWER", "value":3},
-							"monitoringVars": ["speed"]
 						}
 					},{
 						"type": "SERVICE",
@@ -151,7 +143,7 @@
 						"type": "NUMERIC", 
 						"valueCharacteristics": {
 							"valueType": "DOUBLE",
-		                    "values":[0,100],
+		                    "values":[0,4000],
 		                    "ranges":["0-0.05","0.05-0.10","0.10-0.15","0.15-0.20","0.20-0.25","0.25-0.30","0.30-0.35","0.35-0.40","0.40-0.45","0.45-0.50","0.50-0.55","0.55-0.60","0.60-0.65","0.65-0.70","0.70-0.75","0.75-0.80","0.80-0.85","0.85-0.90","0.90-0.95","0.95-0.99"]
 						}
 				},{
@@ -159,7 +151,7 @@
 						"type": "NUMERIC", 
 						"valueCharacteristics": {
 							"valueType": "DOUBLE",
-		                    "values":[0,100],
+		                    "values":[0,4000],
 		                    "ranges":["0-0.05","0.05-0.10","0.10-0.15","0.15-0.20","0.20-0.25","0.25-0.30","0.30-0.35","0.35-0.40","0.40-0.45","0.45-0.50","0.50-0.55","0.55-0.60","0.60-0.65","0.65-0.70","0.70-0.75","0.75-0.80","0.80-0.85","0.85-0.90","0.90-0.95","0.95-0.99"]
 						}
 				},{
@@ -167,7 +159,7 @@
 						"type": "NUMERIC", 
 						"valueCharacteristics": {
 							"valueType": "DOUBLE",
-		                    "values":[0,100],
+		                    "values":[0,4000],
 		                    "ranges":["0-0.05","0.05-0.10","0.10-0.15","0.15-0.20","0.20-0.25","0.25-0.30","0.30-0.35","0.35-0.40","0.40-0.45","0.45-0.50","0.50-0.55","0.55-0.60","0.60-0.65","0.65-0.70","0.70-0.75","0.75-0.80","0.80-0.85","0.85-0.90","0.90-0.95","0.95-0.99"]
 						}
 				},{
@@ -175,7 +167,7 @@
 						"type": "NUMERIC", 
 						"valueCharacteristics": {
 							"valueType": "DOUBLE",
-		                    "values":[0,100],
+		                    "values":[0,4000],
 		                    "ranges":["0-0.05","0.05-0.10","0.10-0.15","0.15-0.20","0.20-0.25","0.25-0.30","0.30-0.35","0.35-0.40","0.40-0.45","0.45-0.50","0.50-0.55","0.55-0.60","0.60-0.65","0.65-0.70","0.70-0.75","0.75-0.80","0.80-0.85","0.85-0.90","0.90-0.95","0.95-0.99"]
 						}
 				},{
@@ -183,7 +175,7 @@
 						"type": "NUMERIC", 
 						"valueCharacteristics": {
 							"valueType": "DOUBLE",
-		                    "values":[11.000000,12.772000],
+		                    "values":[11.000000,13.000000],
 		                    "ranges":["0-0.05","0.05-0.10","0.10-0.15","0.15-0.20","0.20-0.25","0.25-0.30","0.30-0.35","0.35-0.40","0.40-0.45","0.45-0.50","0.50-0.55","0.55-0.60","0.60-0.65","0.65-0.70","0.70-0.75","0.75-0.80","0.80-0.85","0.85-0.90","0.90-0.95","0.95-0.99"]
 						}
 				},{

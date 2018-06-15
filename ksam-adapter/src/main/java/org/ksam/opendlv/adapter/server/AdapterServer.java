@@ -33,6 +33,8 @@ public class AdapterServer implements Runnable {
     private final String CONFIG = "/json/" + SYSTEM_ID + ".json";
     private final boolean replay = true;
 
+    private Replayer replayer;
+
     public AdapterServer() {
 	InputStream is = AdapterServer.class.getResourceAsStream(CONFIG);
 	StringBuilder json = new StringBuilder();
@@ -50,7 +52,7 @@ public class AdapterServer implements Runnable {
 	if (!replay) {
 	    (new Thread(this)).start();
 	} else {
-	    new Replayer(this);
+	    replayer = new Replayer(this);
 	}
     }
 
@@ -64,7 +66,7 @@ public class AdapterServer implements Runnable {
 
     public void forwardData(String s) {
 	String sJsonFormmat = s.replace('\'', '\"');
-	LOGGER.info("Forward JSON: " + sJsonFormmat);
+	// LOGGER.info("Forward JSON: " + sJsonFormmat);
 	postData(sJsonFormmat, URL_KSAM + "/" + SYSTEM_ID + "/monitoringData");
     }
 
@@ -97,7 +99,12 @@ public class AdapterServer implements Runnable {
 	}
     }
 
-    public static void main(String args[]) throws IOException, ClassNotFoundException {
-	new AdapterServer();
+    public Replayer getReplayer() {
+	return this.replayer;
     }
+
+    // public static void main(String args[]) throws IOException,
+    // ClassNotFoundException {
+    // new AdapterServer();
+    // }
 }
