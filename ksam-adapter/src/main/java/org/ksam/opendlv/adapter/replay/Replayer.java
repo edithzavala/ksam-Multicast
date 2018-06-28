@@ -71,10 +71,11 @@ public class Replayer {
 
 	    // linesCSpeed =
 	    // Files.lines(Paths.get("can-speedNoNormalized.txt")).collect(Collectors.toList()).iterator();
+
 	    monitorsState = new HashMap<>();
 	    monitorsState.put("velodyne32Lidar", true);
 	    monitorsState.put("applanixGps", true);
-	    monitorsState.put("axiscamera", false);
+	    monitorsState.put("axiscamera", true);
 	} catch (IOException e) {
 	    e.printStackTrace();
 	}
@@ -83,31 +84,22 @@ public class Replayer {
 	// constructing the json manually (error prone solution)
 	/** Velodyne **/
 	Runnable taskV = new Runnable() {
-	    int i = 0;
-
 	    @Override
 	    public void run() {
 		// READ FILE
+
+		String startAzimuth = linesVStartAzimuth.hasNext() ? linesVStartAzimuth.next().split(" ")[1] : "0.0";
+		String endAzimuth = linesVEndAzimuth.hasNext() ? linesVEndAzimuth.next().split(" ")[1] : "0.0";
+		String frontalD = linesVFrontalD.hasNext() ? linesVFrontalD.next().split(" ")[1] : "0.0";
+		String rearD = linesVRearD.hasNext() ? linesVRearD.next().split(" ")[1] : "0.0";
+		String rightD = linesVRigthD.hasNext() ? linesVRigthD.next().split(" ")[1] : "0.0";
+		String leftD = linesVLeftD.hasNext() ? linesVLeftD.next().split(" ")[1] : "0.0";
+
 		if (monitorsState.get("velodyne32Lidar")) {
-		    String startAzimuth = linesVStartAzimuth.hasNext() ? linesVStartAzimuth.next().split(" ")[1] : "0";
-		    String endAzimuth = linesVEndAzimuth.hasNext() ? linesVEndAzimuth.next().split(" ")[1] : "360";
-		    String frontalD = "";
-
-		    if (i <= 10) {
-			frontalD = linesVFrontalD.hasNext() ? linesVFrontalD.next().split(" ")[1] : "0";
-		    } else {
-			frontalD = "-1.0";
-		    }
-		    i++;
-
-		    String rearD = linesVRearD.hasNext() ? linesVRearD.next().split(" ")[1] : "0";
-		    String rightD = linesVRigthD.hasNext() ? linesVRigthD.next().split(" ")[1] : "0";
-		    String leftD = linesVLeftD.hasNext() ? linesVLeftD.next().split(" ")[1] : "0";
-
 		    // CONSTRUCT JSON
 		    String json = "{'systemId' : 'openDlvMonitorv0','timeStamp':'"
 			    + new Timestamp(System.currentTimeMillis()).getTime() + "',"
-			    + "'context': [{'services': ['laneFollower']}],'monitors': [{'monitorId':'velodyne32Lidar','measurements': [{'varId':'startAzimuth','measures': [{'mTimeStamp': '"
+			    + "'context': [{'services': ['laneFollower']}],'monitors':[{'monitorId':'velodyne32Lidar','measurements':[{'varId':'startAzimuth','measures': [{'mTimeStamp': '"
 			    + new Timestamp(System.currentTimeMillis()).getTime() + "','value':'" + startAzimuth
 			    + "'}]},{'varId':'endAzimuth','measures': [{'mTimeStamp': '"
 			    + new Timestamp(System.currentTimeMillis()).getTime() + "','value':'" + endAzimuth
@@ -124,7 +116,7 @@ public class Replayer {
 		}
 	    }
 	};
-	schedulerV.scheduleAtFixedRate(taskV, 10000, 100, TimeUnit.MILLISECONDS);
+	schedulerV.scheduleAtFixedRate(taskV, 5000, 100, TimeUnit.MILLISECONDS);
 
 	/*************************************/
 
@@ -133,13 +125,13 @@ public class Replayer {
 	    @Override
 	    public void run() {
 		// READ FILE
-		if (monitorsState.get("applanixGps")) {
-		    String latitude = linesALatitude.hasNext() ? linesALatitude.next().split(" ")[1] : "57.773239";
-		    String longitude = linesALongitude.hasNext() ? linesALongitude.next().split(" ")[1] : "12.771125";
-		    String speed = linesASpeed.hasNext()
-			    ? String.valueOf(Double.valueOf(linesASpeed.next().split(" ")[1]) * 3600 / 1000)
-			    : "0"; // speed is translated into km/h (speed*3600/1000)
 
+		String latitude = linesALatitude.hasNext() ? linesALatitude.next().split(" ")[1] : "0.0";// "57.773239";
+		String longitude = linesALongitude.hasNext() ? linesALongitude.next().split(" ")[1] : "0.0"; // "12.771125";
+		String speed = linesASpeed.hasNext()
+			? String.valueOf(Double.valueOf(linesASpeed.next().split(" ")[1]) * 3600 / 1000)
+			: "0"; // speed is translated into km/h (speed*3600/1000)
+		if (monitorsState.get("applanixGps")) {
 		    // CONSTRUCT JSON
 		    String json = "{'systemId' : 'openDlvMonitorv0','timeStamp':'"
 			    + new Timestamp(System.currentTimeMillis()).getTime() + "',"
@@ -154,7 +146,7 @@ public class Replayer {
 		}
 	    }
 	};
-	schedulerA.scheduleAtFixedRate(taskA, 10000, 20, TimeUnit.MILLISECONDS);
+	schedulerA.scheduleAtFixedRate(taskA, 5000, 20, TimeUnit.MILLISECONDS);
 	/*************************************/
 
 	// /** CAN **/
@@ -182,15 +174,15 @@ public class Replayer {
 	Runnable taskCamera = new Runnable() {
 	    @Override
 	    public void run() {
+		// READ FILE
+		String imgSize = linesCameraImgSize.hasNext() ? linesCameraImgSize.next().split(" ")[1] : "0.0";
+		String frontal = linesCameraFrontal.hasNext() ? linesCameraFrontal.next().split(" ")[1] : "0.0";
 		if (monitorsState.get("axiscamera")) {
-		    // READ FILE
-		    String imgSize = linesCameraImgSize.hasNext() ? linesCameraImgSize.next().split(" ")[1] : "0";
-		    String frontal = linesCameraFrontal.hasNext() ? linesCameraFrontal.next().split(" ")[1] : "0";
 		    // CONSTRUCT JSON
 
 		    String json = "{'systemId' : 'openDlvMonitorv0','timeStamp':'"
 			    + new Timestamp(System.currentTimeMillis()).getTime() + "',"
-			    + "'context': [{'services': ['laneFollower']}],'monitors': [{'monitorId':'axiscamera','measurements': [{'varId':'frontaldistance','measures': [{'mTimeStamp': '"
+			    + "'context': [{'services': ['laneFollower']}],'monitors':[{'monitorId':'axiscamera','measurements':[{'varId':'frontaldistance','measures': [{'mTimeStamp': '"
 			    + new Timestamp(System.currentTimeMillis()).getTime() + "','value':'" + frontal
 			    + "'}]},{'varId':'imgSize','measures': [{'mTimeStamp': '"
 			    + new Timestamp(System.currentTimeMillis()).getTime() + "','value':'" + imgSize
@@ -200,7 +192,7 @@ public class Replayer {
 		}
 	    }
 	};
-	schedulerCamera.scheduleAtFixedRate(taskCamera, 10000, 50,
+	schedulerCamera.scheduleAtFixedRate(taskCamera, 5000, 50,
 		TimeUnit.MILLISECONDS);/*************************************/
 
     }
