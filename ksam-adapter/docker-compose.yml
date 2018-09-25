@@ -2,7 +2,7 @@ version: '2'
 
 services:
     ksam-adapter:
-        image: ksam-adapter:latest
+        image: edithzavala/ksam-adapter
         ports:
             - "8083:8083"
             - "8088:8080"
@@ -12,7 +12,7 @@ services:
 
  # microservice city data monitor
    # cityreporter:
-   #     image: cityreporter
+   #     image: edithzavala/cityreporter
    #     network_mode: host
    #     depends_on:
    #     - ksam-adapter
