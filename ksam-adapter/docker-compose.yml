@@ -7,14 +7,14 @@ services:
             - "8083:8083"
             - "8088:8080"
         volumes:
-        - /weka_ksam/:/tmp/weka
+        - /home/revere/ezb/ksam_data/:/tmp/weka
         network_mode: host
 
  # microservice city data monitor
-    cityreporter:
-        image: cityreporter
-        network_mode: host
-        depends_on:
-        - ksam-adapter
-        volumes:
-        - /weka_ksam/:/tmp/weka
+   # cityreporter:
+   #     image: cityreporter
+   #     network_mode: host
+   #     depends_on:
+   #     - ksam-adapter
+   #     volumes:
+   #     - /weka_ksam/:/tmp/weka

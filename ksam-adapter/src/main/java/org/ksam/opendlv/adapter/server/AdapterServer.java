@@ -27,11 +27,11 @@ public class AdapterServer implements Runnable {
     // ---- Adapt for supporting different vehicles. E.g., get system ID from JSON
     // ---- received.
     private final int PORT_OPENDLV = 8083;
-    private final int PORT_KSAM = 8080;
+    private final int PORT_KSAM = 8090;
     private final String SYSTEM_ID = "openDlvMonitorv0";
     private final String URL_KSAM = "http://localhost:" + PORT_KSAM;
-    private final String CONFIG = "/json/" + SYSTEM_ID + ".json";
-    private final boolean replay = true;
+    private final String CONFIG = "/" + SYSTEM_ID + ".json";
+    private final boolean replay = false;
 
     private Replayer replayer;
 

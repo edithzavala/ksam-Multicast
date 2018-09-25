@@ -56,7 +56,7 @@
 					"events": []
 				},
 				"monitorVars":{
-					"monitors": ["axiscamera", "heretraffic", "openweathermap", "velodyne32Lidar", "applanixGps", "V2VDenm_Event", "V2VCam_FrontCenter"], 
+					"monitors": ["can", "axiscamera", "heretraffic", "openweathermap", "velodyne32Lidar", "applanixGps", "V2VDenm_Event", "V2VCam_FrontCenter"], 
 					"monitoringVars": ["imgSize", "Event", "speed","trafficFactor", "mainWeather", "longitude", "latitude", "endAzimuth", "startAzimuth", "frontaldistance", "rightdistance", "leftdistance", "reardistance"] 
 			}
 		},
@@ -64,14 +64,23 @@
 			"contextConfig":{
 				"states": [{
 						"stateId": "laneFollower",
-						"vars": ["endAzimuth", "startAzimuth", "frontaldistance", "rightdistance", "leftdistance", "reardistance", "longitude", "latitude", "speed", "trafficFactor", "mainWeather"],
+						"vars": ["endAzimuth", "startAzimuth", "frontaldistance", "rightdistance", "leftdistance", "reardistance", "longitude", "latitude", "speed", "trafficFactor", "mainWeather", "Event"],
 						"nextStates": []
 				}]
 			},
 			"monitorConfig":{
-				"initialActiveMonitors":["axiscamera", "velodyne32Lidar", "applanixGps", "heretraffic", "openweathermap", "V2VDenm_Event"],
-				"persistenceMonitors":["axiscamera", "heretraffic", "openweathermap", "velodyne32Lidar", "applanixGps"],
+				"initialActiveMonitors":["can", "axiscamera", "velodyne32Lidar", "applanixGps", "heretraffic", "openweathermap", "V2VDenm_Event"],
+				"persistenceMonitors":["can", "axiscamera", "heretraffic", "openweathermap", "velodyne32Lidar", "applanixGps"],
 				"monitors": [
+									{
+						"type": "SENSOR",
+						"monitorAttributes": {
+							"monitorId": "can",
+							"frequency": 50,
+							"cost": {"type":"POWER", "value":1},
+							"monitoringVars": ["speed"]
+						}
+					},
 					{
 						"type": "SENSOR",
 						"monitorAttributes": {
@@ -111,7 +120,7 @@
 							"monitorId": "applanixGps",
 							"frequency": 100,
 							"cost": {"type":"POWER", "value":2},
-							"monitoringVars": ["longitude", "latitude", "speed"]
+							"monitoringVars": ["longitude", "latitude"]
 						}
 					},{
 						"type": "SERVICE",
