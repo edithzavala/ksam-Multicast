@@ -76,7 +76,7 @@
 						"type": "SENSOR",
 						"monitorAttributes": {
 							"monitorId": "can",
-							"frequency": 50,
+							"frequency": 10,
 							"cost": {"type":"POWER", "value":1},
 							"monitoringVars": ["speed"]
 						}
