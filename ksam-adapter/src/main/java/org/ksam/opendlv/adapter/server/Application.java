@@ -9,7 +9,7 @@ public class Application {
 
     public static void main(String[] args) {
 	SpringApplication.run(Application.class, args);
-	adapter = new AdapterServer();
+	adapter = new AdapterServer(args[0]);
     }
 
 }

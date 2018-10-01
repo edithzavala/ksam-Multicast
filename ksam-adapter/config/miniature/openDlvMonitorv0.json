@@ -75,7 +75,7 @@
 						"type": "SERVICE",
 						"monitorAttributes": {
 							"monitorId": "heretraffic",
-							"frequency": 1000,
+							"frequency": 60000,
 							"cost": {"type":"POWER", "value":5},
 							"monitoringVars": ["trafficFactor"]
 						}

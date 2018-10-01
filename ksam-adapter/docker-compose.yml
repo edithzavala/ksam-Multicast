@@ -8,7 +8,9 @@ services:
             - "8088:8080"
         volumes:
         - /home/revere/ezb/ksam_data/:/tmp/weka
+        - ~/git/ksam-opendlv/ksam-adapter/config:/tmp/config
         network_mode: host
+        command: "application.json --server.port=8088"
 
  # microservice city data monitor
    # cityreporter:

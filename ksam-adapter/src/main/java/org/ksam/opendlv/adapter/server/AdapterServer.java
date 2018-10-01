@@ -1,16 +1,13 @@
 package org.ksam.opendlv.adapter.server;
 
-import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
+import org.ksam.opendlv.adapter.configuration.AdapterConfig;
 import org.ksam.opendlv.adapter.replay.Replayer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,42 +15,61 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.reactivex.Observable;
 
 public class AdapterServer implements Runnable {
     private static final Logger LOGGER = LoggerFactory.getLogger(AdapterServer.class);
+    private final String configPath = "/tmp/config/";
+    private AdapterConfig config;
 
-    // This kind of variables should go into a config file
-    // ---- Adapt for supporting different vehicles. E.g., get system ID from JSON
-    // ---- received.
-    private final int PORT_OPENDLV = 8083;
-    private final int PORT_KSAM = 8090;
-    private final String SYSTEM_ID = "openDlvMonitorv0";
-    private final String URL_KSAM = "http://localhost:" + PORT_KSAM;
-    private final String CONFIG = "/" + SYSTEM_ID + ".json";
-    private final boolean replay = false;
+    private int PORT_OPENDLV;// = 8083;
+    private int PORT_KSAM;// = 8090;
+    private String SYSTEM_ID;// = "openDlvMonitorv0";
+    private String URL_KSAM;// = "http://localhost:" + PORT_KSAM;
+    private String expFile;// = "/" + SYSTEM_ID + ".json"; // /tmp/config/[CONFIG]/[SYSTEM_ID].json
+    private boolean replay;// = false;
 
     private Replayer replayer;
 
-    public AdapterServer() {
-	InputStream is = AdapterServer.class.getResourceAsStream(CONFIG);
-	StringBuilder json = new StringBuilder();
-	try (Reader reader = new BufferedReader(
-		new InputStreamReader(is, Charset.forName(StandardCharsets.UTF_8.name())))) {
-	    int c = 0;
-	    while ((c = reader.read()) != -1) {
-		json.append((char) c);
+    public AdapterServer(String configFile) {
+	ObjectMapper mapper = new ObjectMapper();
+	try {
+	    String dataConfig = new String(Files.readAllBytes(Paths.get(this.configPath + configFile)));
+	    this.config = mapper.readValue(dataConfig, AdapterConfig.class);
+	    this.PORT_OPENDLV = this.config.getPortOpenDLV();
+	    this.PORT_KSAM = this.config.getPorKsam();
+	    this.SYSTEM_ID = this.config.getSystemId();
+	    this.URL_KSAM = "http://" + this.config.getHostKsam() + ":" + this.PORT_KSAM;
+	    this.expFile = this.configPath + this.config.getExperimentType() + "/" + this.SYSTEM_ID + ".json";
+	    this.replay = this.config.isReplay();
+
+	    String dataExp = new String(Files.readAllBytes(Paths.get(this.expFile)));
+	    LOGGER.info("Susbcribe openDlvMonitor");
+	    postData(dataExp, this.URL_KSAM + "/managedElement");
+
+	    if (!this.replay) {
+		(new Thread(this)).start();
+	    } else {
+		replayer = new Replayer(this);
 	    }
+
 	} catch (IOException e) {
-	    LOGGER.error(e.getMessage());
+	    e.printStackTrace();
 	}
-	LOGGER.info("Susbcribe openDlvMonitor");
-	postData(json.toString(), URL_KSAM + "/managedElement");
-	if (!replay) {
-	    (new Thread(this)).start();
-	} else {
-	    replayer = new Replayer(this);
-	}
+	//
+	// InputStream is = AdapterServer.class.getResourceAsStream(this.expType);
+	// StringBuilder json = new StringBuilder();
+	// try (Reader reader = new BufferedReader(
+	// new InputStreamReader(is, Charset.forName(StandardCharsets.UTF_8.name())))) {
+	// int c = 0;
+	// while ((c = reader.read()) != -1) {
+	// json.append((char) c);
+	// }
+	// } catch (IOException e) {
+	// LOGGER.error(e.getMessage());
+	// }
     }
 
     private void postData(String jsonData, String url) {
