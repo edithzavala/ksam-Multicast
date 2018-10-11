@@ -7,16 +7,18 @@ services:
             - "8083:8083"
             - "8088:8080"
         volumes:
-        - /home/revere/ezb/ksam_data/:/tmp/weka
-        - ~/git/ksam-opendlv/ksam-adapter/config:/tmp/config
+        - ~/ksam_data/:/tmp/weka
+        - ./config:/tmp/config
         network_mode: host
         command: "application.json --server.port=8088"
 
  # microservice city data monitor
-   # cityreporter:
-   #     image: edithzavala/cityreporter
-   #     network_mode: host
-   #     depends_on:
-   #     - ksam-adapter
-   #     volumes:
-   #     - /weka_ksam/:/tmp/weka
+#    cityreporter:
+#        image: edithzavala/cityreporter
+#        network_mode: host
+#        ports:
+#            - "8089:8080"
+#        command: "application.json --server.port=8089"
+#        volumes:
+#        - ./config:/tmp/config
+        #- ~/ksam_data/:/tmp/weka

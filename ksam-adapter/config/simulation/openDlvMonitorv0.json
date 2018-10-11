@@ -21,12 +21,16 @@
 		"analyzerConfig": {
 			"problemId": "StateDrivenMonitoring",
 			"minSymptoms": 3,
+			"adaptationSupported": [
+				""
+			],
 			"analysisTechniques": [
 				{
 					"techId": "ML",
 					"tool": "Weka",
 					"toolHost": "localhost",
 					"toolPort": 8085,
+					"toolOn": false,
 					"algorithms": [
 						{
 							"algorithmId": "JRip",
@@ -183,7 +187,8 @@
 					"Infrared_RearRight",
 					"UltraSonic_FrontCenter",
 					"UltraSonic_FrontRight",
-					"UltraSonic_RearRight"
+					"UltraSonic_RearRight",
+					"V2VCam_FrontCenter"
 				],
 				"monitors": [
 					{
@@ -467,7 +472,8 @@
 								"Snow",
 								"Extreme",
 								"Clear",
-								"Clouds"
+								"Clouds",
+								"Foggy"
 							]
 						}
 					},
